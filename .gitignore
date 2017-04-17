@@ -3,5 +3,6 @@ node_modules
 .tmp
 public/css/app.css
 public/js/app.js
+public/service-worker.js
 builds/development/images/**
 jshint-output.html
