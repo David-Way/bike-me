@@ -1,5 +1,8 @@
+'use strict';
+
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
+    debug = require('gulp-debug'),
     jshint = require('gulp-jshint'),
     stylish = require('jshint-stylish'),
     jshintfileoutput = require('gulp-jshint-html-reporter'),
@@ -9,14 +12,14 @@ var gulp = require('gulp'),
     cleanCSS = require('gulp-clean-css'),
     uglify = require('gulp-uglify'),
     sourcemaps = require('gulp-sourcemaps'),
-    gulpif = require('gulp-if');
+    gulpif = require('gulp-if'),
     webserver = require('gulp-webserver'),
     path = require('path'),
     swPrecache = require('sw-precache');
 
 var src = './src',
     dest = './public',
-    environment = 'production1';
+    environment = 'production';
 
 gulp.task('generate-service-worker', function(callback) {
   swPrecache.write(path.join(dest, 'service-worker.js'), {
@@ -37,7 +40,7 @@ gulp.task('js:build', function() {
     .pipe(browserify())
     .pipe(gulpif(environment === 'production', uglify()))
     .on('error', function (err) {
-      console.error('Error!', err.message);
+      gutil.error('Error!', err.message);
     })
     .pipe(gulp.dest(dest + '/js'));
 });
@@ -46,36 +49,39 @@ gulp.task('html', function() {
 });
 
 gulp.task('scss:build', function () {
- return gulp.src('./scss/**/*.scss')
-  .pipe(sourcemaps.init())
-  .pipe(sass().on('error', sass.logError))
-  .pipe(sourcemaps.write())
-  .pipe(gulp.dest(dest + '/css'));
+  gutil.log('1');
+  return gulp.src(src + '/scss/**/*.scss')
+    .pipe(debug())
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(dest + '/css'));
 });
 
 gulp.task('css', function() {
   gulp.src( src + '/css/app.css')
     //.pipe(concatCss('app.css', { rebaseUrls: false }))
     .pipe(gulpif(environment === 'production', cleanCSS()))
-  .pipe(gulp.dest(dest + '/css'));
+    .pipe(gulp.dest(dest + '/css'));
 });
 
 gulp.task('watch', function() {
     gulp.watch([src + '/js/**/*', dest + '/data/**/*'], ['generate-service-worker','js']);
-    gulp.watch(src + '/scss/*.scss', ['generate-service-worker','scss']);
+    gulp.watch(src + '/scss/**/*.scss', ['generate-service-worker','scss']);
     gulp.watch(dest + '/*.html', ['generate-service-worker','html']);
 });
 
-gulp.task('webserver', ['generate-service-worker','html', 'css', 'js'], function() {
+gulp.task('webserver', ['generate-service-worker','html', 'scss', 'js'], function() {
   gulp.src(dest)
-  .pipe(webserver({
+    .pipe(webserver({
       livereload: true,
       open: true
-  }));
+    })
+  );
 });
 
 gulp.task('default', ['watch', 'webserver']);
-gulp.task('build', ['generate-service-worker','html', 'css', 'js']);
+gulp.task('build', ['generate-service-worker','html', 'scss', 'js']);
 
 gulp.task('js', ['js:lint', 'js:build']);
 gulp.task('scss', ['scss:build']);

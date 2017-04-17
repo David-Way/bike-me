@@ -2,9 +2,9 @@
 
 var L = require('leaflet');
 require('leaflet.offline');
+var StationMarker = require('./util/StationMarker');
 
 var App = function() {
-
   var _ = {
     map: null,
     mapConfig: {
@@ -18,6 +18,7 @@ var App = function() {
       tap: true,
       attributionControl: false
     },
+    stationMarkers: [],
     init: function() {
       _.registerServiceWorker();
       _.createMap();
@@ -30,6 +31,8 @@ var App = function() {
           .then(function() {
             console.log('Service Worker Active');
           });
+      } else {
+        alert('Service worker not supproted on this device. Offline mode not available.');
       }
     },
     createMap: function() {
@@ -51,6 +54,12 @@ var App = function() {
         if (request.status >= 200 && request.status < 400) {
           var data = JSON.parse(request.responseText);
           console.log('data', data);
+          _.stationMarkers = null;
+          for (var i = 0; i < data.length; i++) {
+            var lat = data[i].latitude;
+            var long = data[i].longitude;
+            new StationMarker([lat, long]).addTo(_.map);
+          }
         } else { // TODO handle Error
 
         }
