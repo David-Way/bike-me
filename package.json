@@ -11,6 +11,8 @@
   },
   "author": "david_way@live.ie",
   "devDependencies": {
+    "firebase-admin": "^4.1.2",
+    "firebase-functions": "^0.5",
     "browserify": "^13.1.0",
     "gulp": "^3.8.8",
     "gulp-browserify": "^0.5.1",
