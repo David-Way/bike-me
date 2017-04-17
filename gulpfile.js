@@ -75,6 +75,7 @@ gulp.task('webserver', ['generate-service-worker','html', 'css', 'js'], function
 });
 
 gulp.task('default', ['watch', 'webserver']);
+gulp.task('build', ['generate-service-worker','html', 'css', 'js']);
 
 gulp.task('js', ['js:lint', 'js:build']);
 gulp.task('scss', ['scss:build']);
