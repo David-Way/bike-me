@@ -23,7 +23,6 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^2.2.20",
     "gulp-webserver": "^0.8.8",
-    "jquery": "^3.1.1",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "sw-precache": "^4.2.1"

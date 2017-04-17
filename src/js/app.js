@@ -1,4 +1,5 @@
-var $ = jQuery = require('jquery');
+'use strict';
+
 var Handlebars = require('handlebars');
 var L = require('leaflet');
 require('leaflet.offline');
@@ -39,17 +40,29 @@ var app = (function() {
     }
   ).addTo(app.map);
 
-  $.getJSON('/data/Dublin.json', function(data) {
-    console.log('data', data);
+  var request = new XMLHttpRequest();
+  request.open('GET', '/data/Dublin.json', true);
 
-		$('main').append('<pre>'+JSON.stringify(data)+'</pre>');
-  });
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      // Success!
+      var data = JSON.parse(request.responseText);
+      console.log('data', data);
 
-  $('.reload').click(function() {
-    window.location.reload();
-  });
+  		//$('main').append('<pre>'+JSON.stringify(data)+'</pre>');
+    } else {
+      // We reached our target server, but it returned an error
+
+    }
+  };
+
+  request.onerror = function() {
+    // There was a connection error of some sort
+  };
+
+  request.send();
 
   return {
-    
+
   };
 })(); //Page Ready
