@@ -10,8 +10,8 @@ var gulp = require('gulp'),
     path = require('path'),
     swPrecache = require('sw-precache');
 
-var src = './process',
-    dest = './app'
+var src = './src',
+    dest = './public'
     environment = 'production';
 
 gulp.task('generate-service-worker', function(callback) {
