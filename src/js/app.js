@@ -2,10 +2,12 @@
 
 var L = require('leaflet');
 require('leaflet.offline');
-var StationMarker = require('./util/StationMarker');
+var Marker = require('./util/Marker');
 
 var App = function() {
   var _ = {
+    userLocationMarker: null,
+    geolocationWatchID: null,
     map: null,
     mapConfig: {
       center: [53.3470, -6.2589],
@@ -23,16 +25,32 @@ var App = function() {
       _.registerServiceWorker();
       _.createMap();
       _.loadStaticStationData();
+      _.getUserLocation();
     },
     registerServiceWorker: function() {
       if('serviceWorker' in navigator) {
         navigator.serviceWorker
           .register('./service-worker.js')
           .then(function() {
-            console.log('Service Worker Active');
+            console.log('Service Worker Active.');
           });
       } else {
-        alert('Service worker not supproted on this device. Offline mode not available.');
+        console.log('Service worker not supported on this device. Offline mode not available.');
+      }
+    },
+    getUserLocation: function() {
+      if ('geolocation' in navigator) {
+        _.geolocationWatchID = navigator.geolocation.watchPosition(function(position) {
+          if (_.userLocationMarker) { // move marker
+            var lat = position.coords.latitude;
+            var long = position.coords.longitude;
+            _.userLocationMarker.setLatLng([lat, long]);
+          } else { //init
+            _.userLocationMarker = new Marker('user', _.mapConfig.center).addTo(_.map);
+          }
+        });
+      } else {
+        console.log('Geolocation is not available.');
       }
     },
     createMap: function() {
@@ -58,7 +76,7 @@ var App = function() {
           for (var i = 0; i < data.length; i++) {
             var lat = data[i].latitude;
             var long = data[i].longitude;
-            new StationMarker([lat, long]).addTo(_.map);
+            new Marker('station', [lat, long]).addTo(_.map);
           }
         } else { // TODO handle Error
 
