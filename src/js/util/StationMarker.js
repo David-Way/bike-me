@@ -3,7 +3,6 @@
 var L = require('leaflet');
 
 var StationMarker = function(coOrdinates) {
-	console.log('init');
 	return this.init(coOrdinates);
 };
 
