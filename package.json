@@ -31,6 +31,7 @@
     "sw-precache": "^4.2.1"
   },
   "dependencies": {
+    "bluebird": "^3.5.0",
     "leaflet": "^1.0.3",
     "leaflet.offline": "0.1.0-beta.5",
     "localforage": "^1.5.0"
