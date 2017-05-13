@@ -10,7 +10,7 @@ var StationList = function(_apiEndpoint, _map) {
   return this.init();
 };
 
-StationList.prototype.init = function(apiEndpoint) {
+StationList.prototype.init = function() {
   this.loadStaticStationData();
   this.loadLatestDynamicStationData();
   return this;
