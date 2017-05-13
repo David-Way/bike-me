@@ -17,7 +17,7 @@ Station.prototype.addToMap = function(_map) {
 };
 
 Station.prototype.removeFromMap = function (_map) {
-  this.marker.removeFromMap(_map)
+  this.marker.removeFromMap(_map);
 };
 
 Station.prototype.assign = function(_object) {
