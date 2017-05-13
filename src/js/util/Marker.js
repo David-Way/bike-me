@@ -2,27 +2,33 @@
 
 var L = require('leaflet');
 
-var Marker = function(_markerType, _coOrdinates) {
+var Marker = function (_markerType, _coOrdinates) {
 	this.markerType = _markerType;
   return this.init(_coOrdinates);
 };
 
-Marker.prototype.init = function(_coOrdinates) {
+Marker.prototype.init = function (_coOrdinates) {
   this.mapMarkerIcon = this.getIcon();
-  this.mapMarker = L.marker(_coOrdinates, {icon: this.mapMarkerIcon});
+  this.lat = _coOrdinates.lat;
+  this.lng = _coOrdinates.lng;
+  this.mapMarker = L.marker([this.lat, this.lng], {icon: this.mapMarkerIcon});
   return this;
 };
 
 Marker.prototype.addToMap = function(_map) {
-  this.mapMarker.addTo(_map);
+  return this.mapMarker.addTo(_map);
 };
 
-Marker.prototype.setLatLng = function(lat, lng) {
-  var newLatLng = new L.LatLng(lat, lng);
+Marker.prototype.removeFromMap = function (_map) {
+	return _map.removeLayer(this.mapMarker);
+};
+
+Marker.prototype.setLatLng = function (position) {
+  var newLatLng = new L.LatLng(position.lat, position.lng);
   this.mapMarker.setLatLng(newLatLng);
 };
 
-Marker.prototype.getIcon = function() {
+Marker.prototype.getIcon = function () {
 	var icon = null;
 	switch (this.markerType) {
 		case 'station':

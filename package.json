@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "Offline Dublin bikes web application",
   "scripts": {
-    "start": "node ./index.js"
+    "start": "gulp"
   },
   "repository": {
     "type": "git",
