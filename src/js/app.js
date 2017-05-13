@@ -2,8 +2,8 @@
 
 var L = require('leaflet');
 require('leaflet.offline');
-var Marker = require('./util/Marker');
-var UserLocation = require('./util/UserLocation');
+var StationList = require('./models/StationList');
+var User = require('./util/User');
 
 var App = function() {
   var _ = {
@@ -22,12 +22,12 @@ var App = function() {
       tap: true,
       attributionControl: false
     },
-    stationMarkers: [],
+    StationList: [],
+    User: null,
     init: function() {
       _.registerServiceWorker();
       _.createMap();
-      _.loadStaticStationData();
-      //_.loadLatestDynamicStationData(); TODO
+      _.getStationList();
       _.getUserLocation();
     },
     registerServiceWorker: function() {
@@ -41,9 +41,12 @@ var App = function() {
         console.log('Service worker not supported on this device. Offline mode not available.');
       }
     },
+    getStationList: function() {
+      _.StationList = new StationList(_.apiEndpoint, _.map);
+    },
     getUserLocation: function() {
-      this.userLocation = new UserLocation();
-      this.userLocation.addToMap(_.map);
+      _.User = new User();
+      _.User.addToMap(_.map);
     },
     createMap: function() {
       _.map = L.map('map', _.mapConfig);
@@ -52,54 +55,6 @@ var App = function() {
         subdomains: '1234',
         minZoom: 13
       }).addTo(_.map);
-    },
-    loadStaticStationData: function() {
-      var request = new XMLHttpRequest();
-      request.open('GET', '/data/Dublin.json', true);
-      request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-          var data = JSON.parse(request.responseText);
-          _.stationMarkers = [];
-          for (var i = 0; i < data.length; i++) {
-            var lat = data[i].latitude;
-            var lng = data[i].longitude;
-            var station = new Marker('station-static', [lat, lng]);
-            station.addToMap(_.map);
-            _.stationMarkers.push(station);
-          }
-        } else { // TODO handle Error
-
-        }
-      };
-      request.onerror = function() { // TODO handle Error
-
-      };
-      request.send();
-    },
-    loadLatestDynamicStationData: function() {
-      var request = new XMLHttpRequest();
-      request.open('GET', _.apiEndpoint + '/stations', true);
-      request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-          var data = JSON.parse(request.responseText);
-          console.log('data', data);
-          _.stationMarkers = [];
-          for (var i = 0; i < data.length; i++) {
-            var lat = data[i].latitude;
-            var lng = data[i].longitude;
-            var station = new Marker('station', [lat, lng]);
-            station.addToMap(_.map);
-            _.stationMarkers.push(station);
-          }
-        } else { // TODO handle Error
-
-        }
-      };
-      request.onerror = function() { // TODO handle Error
-
-      };
-
-      request.send();
     }
   };
 
