@@ -31,10 +31,32 @@ Marker.prototype.setLatLng = function (position) {
 Marker.prototype.getIcon = function () {
 	var icon = null;
 	switch (this.markerType) {
-		case 'station':
+		case 'station-red':
 			 icon = L.icon({
-				iconUrl: '../images/icons/bike-station-icon.png',
-				iconRetinaUrl: '../images/icons/bike-station-icon@2x.png',
+				iconUrl: '../images/icons/bike-station-icon-red.png',
+				iconRetinaUrl: '../images/icons/bike-station-icon-red@2x.png',
+				iconSize: [20, 31],
+				iconAnchor: [10, 30],
+				popupAnchor: [-3, -76],
+				shadowSize: [0, 0],
+				shadowAnchor: [0, 0]
+			});
+			break;
+    case 'station-orange':
+			 icon = L.icon({
+				iconUrl: '../images/icons/bike-station-icon-orange.png',
+				iconRetinaUrl: '../images/icons/bike-station-icon-orange@2x.png',
+				iconSize: [20, 31],
+				iconAnchor: [10, 30],
+				popupAnchor: [-3, -76],
+				shadowSize: [0, 0],
+				shadowAnchor: [0, 0]
+			});
+			break;
+    case 'station-green':
+			 icon = L.icon({
+				iconUrl: '../images/icons/bike-station-icon-green.png',
+				iconRetinaUrl: '../images/icons/bike-station-icon-green@2x.png',
 				iconSize: [20, 31],
 				iconAnchor: [10, 30],
 				popupAnchor: [-3, -76],
