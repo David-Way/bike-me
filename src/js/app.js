@@ -50,11 +50,16 @@ var App = function() {
     },
     createMap: function() {
       _.map = L.map('map', _.mapConfig);
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(_.map);
-      L.tileLayer.offline('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-        subdomains: '1234',
-        minZoom: 13
-      }).addTo(_.map);
+      L.tileLayer(
+        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
+      ).addTo(_.map);
+      L.tileLayer.offline(
+        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+        {
+          subdomains: '1234',
+          minZoom: 13
+        }
+      ).addTo(_.map);
     }
   };
 
