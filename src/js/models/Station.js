@@ -8,7 +8,19 @@ var Station = function(_data) {
 };
 
 Station.prototype.init = function() {
-  this.marker = new Marker(this.status ? 'station' : 'station-static', this.position);
+  var markerType = '';
+  if (this.available_bikes !== undefined) {
+    if (this.available_bikes === 0) {
+      markerType = 'station-red';
+    } else if (this.available_bikes > 0 && this.available_bikes < 5) {
+      markerType = 'station-orange';
+    } else {
+      markerType = 'station-green';
+    }
+  } else {
+    markerType = 'station-static';
+  }
+  this.marker = new Marker(markerType, this.position);
   return this;
 };
 
