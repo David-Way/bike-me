@@ -3,6 +3,11 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "public"
+    "public": "public",
+    "redirects": [{
+      "source" : "/404.html*",
+      "destination" : "/404.html",
+      "type" : 301
+    }]
   }
 }
