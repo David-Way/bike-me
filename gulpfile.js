@@ -23,8 +23,14 @@ var src = './src',
 
 gulp.task('generate-service-worker', function(callback) {
   swPrecache.write(path.join(dest, 'service-worker.js'), {
-    staticFileGlobs: [ dest + '/**/*.{js,html,json,css,png,jpg,gif,svg,eot,ttf,woff}'],
-    stripPrefix: dest
+    staticFileGlobs: [
+      dest + '/**/*.{js,html,json,css,png,jpg,gif,svg,eot,ttf,woff}'
+    ],
+    stripPrefix: dest,
+    runtimeCaching: [{
+      urlPattern:  /^https:\/\/mysterious-temple-97993.herokuapp\.com\/stations/,
+      handler: 'networkFirst'
+    }]
   }, callback);
 });
 
@@ -49,7 +55,6 @@ gulp.task('html', function() {
 });
 
 gulp.task('scss:build', function () {
-  gutil.log('1');
   return gulp.src(src + '/scss/**/*.scss')
     .pipe(debug())
     .pipe(sourcemaps.init())
