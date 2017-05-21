@@ -41,13 +41,6 @@ var App = function() {
         console.log('Service worker not supported on this device. Offline mode not available.');
       }
     },
-    getStationList: function() {
-      _.StationList = new StationList(_.apiEndpoint, _.map);
-    },
-    getUserLocation: function() {
-      _.User = new User();
-      _.User.addToMap(_.map);
-    },
     createMap: function() {
       _.map = L.map('map', _.mapConfig);
       L.tileLayer(
@@ -60,6 +53,13 @@ var App = function() {
           minZoom: 13
         }
       ).addTo(_.map);
+    },
+    getStationList: function() {
+      _.StationList = new StationList(_.apiEndpoint, _.map);
+    },
+    getUserLocation: function() {
+      _.User = new User();
+      _.User.addToMap(_.map);
     }
   };
 

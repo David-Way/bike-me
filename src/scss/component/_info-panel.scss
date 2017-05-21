@@ -1,0 +1,87 @@
+#infoPanel {
+  z-index: 1000;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  min-width: 240px;
+  max-width: 90vw;
+
+  &__list {
+    list-style:none;
+    padding-left:0;
+    margin: 0;
+  }
+}
+
+.info-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 3px 6px 3px 12px;
+  box-shadow: $box-shadow;
+	border-radius: 2px;
+
+  &__highlight{
+    position: absolute;
+    background-color: $color-background;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    border-top: 24px solid $color-primary;
+    margin-top: 3px;
+    margin-left: 2px;
+  }
+
+  &__details {
+    flex: 1;
+  }
+
+  &__meta {
+    line-height: 24px;
+    font-size: 13px;
+    margin: 0;
+
+    &--light {
+      line-height: 12px;
+      font-size: 12px;
+      opacity: .75;
+      margin-top: 6px;
+      margin-bottom: 3px;
+    }
+  }
+
+  &__locate-btn {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    padding: 4px;
+
+    &:hover {
+      background: $color-background-alt;
+    }
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  h3 {
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+}
+
+.info-card + .info-card {
+  margin-top: 12px;
+}
+
+@media screen and (min-width: $medium-screen) {
+  #infoPanel {
+    top: 20vh;
+  }
+}

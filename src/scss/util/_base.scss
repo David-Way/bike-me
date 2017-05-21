@@ -1,0 +1,11 @@
+html,
+body,
+main,
+#map {
+  height: 100%;
+  margin: 0;
+}
+
+.leaflet-bar {
+  box-shadow: $box-shadow;
+}
