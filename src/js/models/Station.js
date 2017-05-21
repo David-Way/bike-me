@@ -1,9 +1,11 @@
 'use strict';
 
 var Marker = require('../util/Marker');
+var moment = require('moment');
 
-var Station = function(_data) {
+var Station = function(_data, _infoCardTemplate) {
   this.assign(_data);
+  this.infoCardTemplate = _infoCardTemplate;
   return this.init();
 };
 
@@ -20,7 +22,8 @@ Station.prototype.init = function() {
   } else {
     markerType = 'station-static';
   }
-  this.marker = new Marker(markerType, this.position);
+
+  this.marker = new Marker(markerType, this.position, this.onClick.bind(this));
   return this;
 };
 
@@ -30,6 +33,25 @@ Station.prototype.addToMap = function(_map) {
 
 Station.prototype.removeFromMap = function (_map) {
   this.marker.removeFromMap(_map);
+};
+
+Station.prototype.onClick = function() {
+  var el = document.createElement('div');
+  el.innerHTML = this.infoCardTemplate;
+  el.getElementsByClassName('info-card_title')[0]
+    .appendChild(document.createTextNode(this.address));
+  el.getElementsByClassName('bikes')[0]
+    .appendChild(document.createTextNode(this.available_bikes));
+  el.getElementsByClassName('stands')[0]
+    .appendChild(document.createTextNode(this.available_bike_stands));
+  el.getElementsByClassName('updated')[0]
+    .appendChild(document.createTextNode(moment.unix(this.last_update/1000).fromNow()));
+
+  infoPanel = document.getElementById('infoPanel');
+  while (infoPanel.firstChild) {
+    infoPanel.removeChild(infoPanel.firstChild);
+  }
+  infoPanel.appendChild(el);
 };
 
 Station.prototype.assign = function(_object) {
