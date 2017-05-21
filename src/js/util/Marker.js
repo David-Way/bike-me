@@ -12,7 +12,15 @@ Marker.prototype.init = function (_coOrdinates) {
   this.mapMarkerIcon = this.getIcon();
   this.lat = _coOrdinates.lat;
   this.lng = _coOrdinates.lng;
-  this.mapMarker = L.marker([this.lat, this.lng], {icon: this.mapMarkerIcon}).on('click', this.onClick);
+  this.mapMarker = L.marker(
+    [
+      this.lat,
+      this.lng
+    ],
+    {
+      icon: this.mapMarkerIcon
+    }
+  ).on('click', this.onClick);
   return this;
 };
 

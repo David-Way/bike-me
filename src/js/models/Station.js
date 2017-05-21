@@ -47,11 +47,11 @@ Station.prototype.onClick = function() {
   el.getElementsByClassName('updated')[0]
     .appendChild(document.createTextNode(moment.unix(this.last_update/1000).fromNow()));
 
-  infoPanel = document.getElementById('infoPanel');
-  while (infoPanel.firstChild) {
-    infoPanel.removeChild(infoPanel.firstChild);
+  this.infoPanel = document.getElementById('infoPanel');
+  while (this.infoPanel.firstChild) {
+    this.infoPanel.removeChild(this.infoPanel.firstChild);
   }
-  infoPanel.appendChild(el);
+  this.infoPanel.appendChild(el);
 };
 
 Station.prototype.assign = function(_object) {
