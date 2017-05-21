@@ -7,6 +7,7 @@ var StationList = function(_apiEndpoint, _map) {
   this.staticStationsDataURL = '/data/Dublin.json';
   this.stationsAPIEndpoint = _apiEndpoint + '/stations';
   this.stations = [];
+  this.infoCardTemplate = document.getElementById('infoCardTemplate').innerHTML;
   return this.init();
 };
 
@@ -19,7 +20,7 @@ StationList.prototype.init = function() {
 StationList.prototype.stationListed = function (stationData) {
   for (var i = 0; i < this.stations.length; i++) {
     if (this.stations[i].number === stationData.number) {
-      return new Station(stationData);
+      return new Station(stationData, this.infoCardTemplate);
     }
   }
   return false;
@@ -34,7 +35,7 @@ StationList.prototype.updateStations = function (stationsData) {
       this.stations[i] = listedStation;
       this.stations[i].addToMap(this.map);
     } else { // create it
-      var station = new Station(stationData);
+      var station = new Station(stationData, this.infoCardTemplate);
       station.addToMap(this.map);
       this.stations.push(station);
     }

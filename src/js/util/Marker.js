@@ -2,8 +2,9 @@
 
 var L = require('leaflet');
 
-var Marker = function (_markerType, _coOrdinates) {
-	this.markerType = _markerType;
+var Marker = function (_markerType, _coOrdinates, _onClick) {
+  this.markerType = _markerType;
+  this.onClick = _onClick;
   return this.init(_coOrdinates);
 };
 
@@ -11,7 +12,7 @@ Marker.prototype.init = function (_coOrdinates) {
   this.mapMarkerIcon = this.getIcon();
   this.lat = _coOrdinates.lat;
   this.lng = _coOrdinates.lng;
-  this.mapMarker = L.marker([this.lat, this.lng], {icon: this.mapMarkerIcon});
+  this.mapMarker = L.marker([this.lat, this.lng], {icon: this.mapMarkerIcon}).on('click', this.onClick);
   return this;
 };
 
@@ -20,7 +21,8 @@ Marker.prototype.addToMap = function(_map) {
 };
 
 Marker.prototype.removeFromMap = function (_map) {
-	return _map.removeLayer(this.mapMarker);
+  this.mapMarker.off('click');
+  return _map.removeLayer(this.mapMarker);
 };
 
 Marker.prototype.setLatLng = function (position) {
