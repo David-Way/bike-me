@@ -32,9 +32,24 @@
 	</header>
 	<main>
     <div id="map"></div>
+    <aside id="infoPanel"></aside>
 	</main>
   <footer>
   </footer>
+  <script id="infoCardTemplate" type="x-template">
+    <div class="info-card">
+      <span class="info-card__highlight"></span>
+      <div class="info-card__details">
+        <h3 class="info-card_title"></h3>
+        <p class="info-card__meta">Bikes <span class="bikes"></span></p>
+        <p class="info-card__meta">Stands <span class="stands"></span></p>
+        <p class="info-card__meta info-card__meta--light">Updated <span class="updated"></span></p>
+      </div>
+      <button class="info-card__locate-btn">
+        <img src="images/icons/bike-station-icon-green.svg" alt="">
+      </button>
+    </div>
+  </script>
 	<script src="js/app.js"></script>
 </body>
 </html>
