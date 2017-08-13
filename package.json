@@ -33,6 +33,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "leaflet": "^1.0.3",
+    "leaflet-routing-machine": "^3.2.5",
     "leaflet.offline": "0.1.0-beta.5",
     "localforage": "^1.5.0",
     "moment": "^2.18.1"
