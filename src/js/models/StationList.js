@@ -2,8 +2,9 @@
 
 var Station = require('./Station');
 
-var StationList = function(_apiEndpoint, _map) {
+var StationList = function(_apiEndpoint, _map, _routeController) {
   this.map = _map;
+  this.routeController = _routeController;
   this.staticStationsDataURL = '/data/Dublin.json';
   this.stationsAPIEndpoint = _apiEndpoint + '/stations';
   this.stations = [];
@@ -20,7 +21,7 @@ StationList.prototype.init = function() {
 StationList.prototype.stationListed = function (stationData) {
   for (var i = 0; i < this.stations.length; i++) {
     if (this.stations[i].number === stationData.number) {
-      return new Station(stationData, this.infoCardTemplate);
+      return new Station(stationData, this.infoCardTemplate, this.routeController);
     }
   }
   return false;
@@ -35,7 +36,7 @@ StationList.prototype.updateStations = function (stationsData) {
       this.stations[i] = listedStation;
       this.stations[i].addToMap(this.map);
     } else { // create it
-      var station = new Station(stationData, this.infoCardTemplate);
+      var station = new Station(stationData, this.infoCardTemplate, this.routeController);
       station.addToMap(this.map);
       this.stations.push(station);
     }

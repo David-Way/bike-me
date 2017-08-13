@@ -3,9 +3,10 @@
 var Marker = require('../util/Marker');
 var moment = require('moment');
 
-var Station = function(_data, _infoCardTemplate) {
+var Station = function(_data, _infoCardTemplate, _routeController) {
   this.assign(_data);
   this.infoCardTemplate = _infoCardTemplate;
+  this.routeController = _routeController;
   return this.init();
 };
 
@@ -36,6 +37,11 @@ Station.prototype.removeFromMap = function (_map) {
 };
 
 Station.prototype.onClick = function() {
+  this.showInfoPanel();
+  this.showDirections();
+};
+
+Station.prototype.showInfoPanel = function() {
   var el = document.createElement('div');
   el.innerHTML = this.infoCardTemplate;
   el.getElementsByClassName('info-card_title')[0]
@@ -52,6 +58,15 @@ Station.prototype.onClick = function() {
     this.infoPanel.removeChild(this.infoPanel.firstChild);
   }
   this.infoPanel.appendChild(el);
+};
+
+Station.prototype.showDirections = function() {
+  console.log(this.marker);
+  this.routeController.setWaypoints([
+    L.latLng(this.marker.lat, this.marker.lng),
+    L.latLng(53.3470, -6.2589)
+  ]);
+  //this.routeController.spliceWaypoints(0, 1, [53.3470, -6.2589]);
 };
 
 Station.prototype.assign = function(_object) {
