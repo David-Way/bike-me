@@ -2,6 +2,7 @@
 
 var L = require('leaflet');
 require('leaflet.offline');
+require('leaflet-routing-machine');
 var StationList = require('./models/StationList');
 var User = require('./util/User');
 
@@ -11,6 +12,7 @@ var App = function() {
     userLocation: null,
     geolocationWatchID: null,
     map: null,
+    routeController: null, //used for route finding
     mapConfig: {
       center: [53.3470, -6.2589],
       zoom: 14,
@@ -27,6 +29,7 @@ var App = function() {
     init: function() {
       _.registerServiceWorker();
       _.createMap();
+      _.createRouteController();
       _.getStationList();
       _.getUserLocation();
     },
@@ -54,8 +57,14 @@ var App = function() {
         }
       ).addTo(_.map);
     },
+    createRouteController: function() {
+      _.routeController = L.Routing.control({
+        router: L.Routing.mapbox('pk.eyJ1IjoiZGF2aWR3YXkiLCJhIjoiY2ozajJ4MTZkMDBxbDMzbWtncWd3bnQzNSJ9.p2VfQYvfnB0K29kkixl08A'),
+        createMarker: function() { return null; },
+      }).addTo(_.map);
+    },
     getStationList: function() {
-      _.StationList = new StationList(_.apiEndpoint, _.map);
+      _.StationList = new StationList(_.apiEndpoint, _.map, _.routeController);
     },
     getUserLocation: function() {
       _.User = new User();
