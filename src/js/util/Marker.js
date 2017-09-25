@@ -38,6 +38,10 @@ Marker.prototype.setLatLng = function (position) {
   this.mapMarker.setLatLng(newLatLng);
 };
 
+Marker.prototype.getLatLng = function () {
+  return this.mapMarker.getLatLng();
+};
+
 Marker.prototype.getIcon = function () {
 	var icon = null;
 	switch (this.markerType) {
