@@ -1,11 +1,15 @@
 'use strict';
 
+var L = require('leaflet');
 var Marker = require('../util/Marker');
 var moment = require('moment');
 
-var Station = function(_data, _infoCardTemplate) {
+var Station = function(_User, _data, _infoCardTemplate, _routeController) {
   this.assign(_data);
+  this.User = _User;
   this.infoCardTemplate = _infoCardTemplate;
+  this.routeController = _routeController;
+  this.marker = null;
   return this.init();
 };
 
@@ -36,22 +40,41 @@ Station.prototype.removeFromMap = function (_map) {
 };
 
 Station.prototype.onClick = function() {
-  var el = document.createElement('div');
-  el.innerHTML = this.infoCardTemplate;
-  el.getElementsByClassName('info-card_title')[0]
+  this.showInfoPanel();
+  this.showDirections();
+};
+
+Station.prototype.showInfoPanel = function() {
+  var container = document.getElementsByClassName('leaflet-top leaflet-right')[0];
+  var infoPanel = document.getElementById('infoPanel');
+
+  if (!infoPanel) {
+    infoPanel = document.createElement('div');
+    infoPanel.id = 'infoPanel';
+  }
+
+  while (infoPanel.firstChild) {
+    infoPanel.removeChild(infoPanel.firstChild);
+  }
+
+  infoPanel.innerHTML = this.infoCardTemplate;
+  infoPanel.getElementsByClassName('info-card_title')[0]
     .appendChild(document.createTextNode(this.address));
-  el.getElementsByClassName('bikes')[0]
+  infoPanel.getElementsByClassName('bikes')[0]
     .appendChild(document.createTextNode(this.available_bikes));
-  el.getElementsByClassName('stands')[0]
+  infoPanel.getElementsByClassName('stands')[0]
     .appendChild(document.createTextNode(this.available_bike_stands));
-  el.getElementsByClassName('updated')[0]
+  infoPanel.getElementsByClassName('updated')[0]
     .appendChild(document.createTextNode(moment.unix(this.last_update/1000).fromNow()));
 
-  this.infoPanel = document.getElementById('infoPanel');
-  while (this.infoPanel.firstChild) {
-    this.infoPanel.removeChild(this.infoPanel.firstChild);
-  }
-  this.infoPanel.appendChild(el);
+  container.insertBefore(infoPanel, container.firstChild);
+};
+
+Station.prototype.showDirections = function() {
+  this.routeController.setWaypoints([
+    L.latLng(this.User.getLatLng()),
+    L.latLng(this.marker.getLatLng()),
+  ]);
 };
 
 Station.prototype.assign = function(_object) {

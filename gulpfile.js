@@ -46,7 +46,7 @@ gulp.task('js:build', function() {
     .pipe(browserify())
     .pipe(gulpif(environment === 'production', uglify()))
     .on('error', function (err) {
-      gutil.error('Error!', err.message);
+      gutil.log('Error!', err.message);
     })
     .pipe(gulp.dest(dest + '/js'));
 });
