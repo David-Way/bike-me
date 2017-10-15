@@ -1,0 +1,113 @@
+$tempo-drip: 400ms;
+$duration-phase-1: 3200ms;
+$duration-phase-2: 1600ms;
+
+.drip-loader {
+  display: flex;
+  height: 2px;
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  opacity: 1;
+
+  &.phase-2 {
+    animation: drip-fade-out $duration-phase-2 forwards ease-in;
+  }
+
+  &__left,
+  &__right,
+  &__center {
+    position: relative;
+    height: 100%;
+
+    &:before {
+      height: 100%;
+    }
+  }
+
+  &__left,
+  &__right {
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      display: block;
+      background: $color-primary;
+      width: 8%;
+    }
+  }
+
+  &__left {
+    flex: 1;
+
+    &:before {
+      left: 0%;
+      animation: drip-left $tempo-drip infinite ease-out;
+    }
+  }
+
+  &__right {
+    flex: 1;
+
+    &:before {
+      right: 0%;
+      animation: drip-right $tempo-drip infinite ease-out;
+    }
+  }
+
+  &__center {
+    background-color: $color-primary;
+    flex-basis: 0%;
+    opacity: 1;
+
+    .phase-1 & {
+      animation: phase-1 $duration-phase-1 $tempo-drip forwards cubic-bezier(0.490, 0.520, 0.000, 1);
+    }
+
+    .phase-2 & {
+      animation: phase-2 $duration-phase-2 forwards ease-in;
+    }
+  }
+}
+
+@keyframes drip-left {
+  100% {
+    left: 100%;
+    width: 4%;
+  }
+}
+
+@keyframes drip-right {
+  100% {
+    right: 100%;
+    width: 4%;
+  }
+}
+
+@keyframes phase-1 {
+  100% {
+    flex-basis: 40%;
+  }
+}
+
+@keyframes phase-2 {
+  84% {
+    flex-basis: 100%;
+  }
+
+  100% {
+    flex-basis: 100%;
+  }
+}
+
+@keyframes drip-fade-out {
+  75% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

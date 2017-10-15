@@ -9,3 +9,12 @@ main,
 .leaflet-bar {
   box-shadow: $box-shadow;
 }
+
+.leaflet-top {
+  position: absolute;
+  top: 0;
+}
+
+.leaflet-center {
+  width: 100%;
+}
