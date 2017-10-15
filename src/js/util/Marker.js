@@ -1,10 +1,17 @@
 'use strict';
 
+var CONFIG = require('../config');
 var L = require('leaflet');
 
-var Marker = function (_markerType, _coOrdinates, _onClick) {
+var Marker = function (_markerType, _markerCatagory, _coOrdinates, _onClick, _selected) {
   this.markerType = _markerType;
+  this.markerCatagory = _markerCatagory;
   this.onClick = _onClick;
+  this.selected = _selected;
+  this.mapMarker = null;
+  this.mapMarkerIcon = null;
+  this.lat = null;
+  this.lng = null;
   return this.init(_coOrdinates);
 };
 
@@ -42,66 +49,44 @@ Marker.prototype.getLatLng = function () {
   return this.mapMarker.getLatLng();
 };
 
-Marker.prototype.getIcon = function () {
-	var icon = null;
-	switch (this.markerType) {
-		case 'station-red':
-			 icon = L.icon({
-				iconUrl: '../images/icons/bike-station-icon-red.png',
-				iconRetinaUrl: '../images/icons/bike-station-icon-red@2x.png',
-				iconSize: [20, 31],
-				iconAnchor: [10, 30],
-				popupAnchor: [-3, -76],
-				shadowSize: [0, 0],
-				shadowAnchor: [0, 0]
-			});
-			break;
-    case 'station-orange':
-			 icon = L.icon({
-				iconUrl: '../images/icons/bike-station-icon-orange.png',
-				iconRetinaUrl: '../images/icons/bike-station-icon-orange@2x.png',
-				iconSize: [20, 31],
-				iconAnchor: [10, 30],
-				popupAnchor: [-3, -76],
-				shadowSize: [0, 0],
-				shadowAnchor: [0, 0]
-			});
-			break;
-    case 'station-green':
-			 icon = L.icon({
-				iconUrl: '../images/icons/bike-station-icon-green.png',
-				iconRetinaUrl: '../images/icons/bike-station-icon-green@2x.png',
-				iconSize: [20, 31],
-				iconAnchor: [10, 30],
-				popupAnchor: [-3, -76],
-				shadowSize: [0, 0],
-				shadowAnchor: [0, 0]
-			});
-			break;
-    case 'station-static':
-			 icon = L.icon({
-				iconUrl: '../images/icons/bike-station-icon-static.png',
-				iconRetinaUrl: '../images/icons/bike-station-icon-static@2x.png',
-				iconSize: [20, 31],
-				iconAnchor: [10, 30],
-				popupAnchor: [-3, -76],
-				shadowSize: [0, 0],
-				shadowAnchor: [0, 0]
-			});
-			break;
-		case 'user':
-			icon = L.icon({
-				iconUrl: '../images/icons/user-icon.png',
-				iconRetinaUrl: '../images/icons/user-icon@2x.png',
-				iconSize: [20, 20],
-				iconAnchor: [10, 10],
-				popupAnchor: [10, 10]
-			});
-			break;
-		default:
+Marker.prototype.setSelected = function (_selected) {
+  this.selected = _selected;
+  this.mapMarker.setIcon(this.getIcon());
+};
 
+Marker.prototype.getIcon = function () {
+	var iconOptions = {};
+  var iconUrl = CONFIG.paths.iconBaseUrl;
+  iconUrl += this.markerType;
+	switch (this.markerType) {
+    case 'bike-station':
+      iconUrl += '-' + this.markerCatagory;
+      if (this.selected) {
+        iconUrl += '-selected';
+      }
+      iconOptions = {
+        iconUrl: iconUrl + '.png',
+        iconRetinaUrl: iconUrl + '@2x.png',
+        iconSize: [20, 31],
+        iconAnchor: [10, 30],
+        popupAnchor: [-3, -76],
+        shadowSize: [0, 0],
+        shadowAnchor: [0, 0]
+      };
+      break;
+    case 'user':
+      iconOptions = {
+        iconUrl: iconUrl + '.png',
+        iconRetinaUrl: iconUrl + '@2x.png',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+        popupAnchor: [10, 10]
+      };
+      break;
+		default:
 	}
-	return icon;
+
+	return L.icon(iconOptions);
 };
 
 module.exports = Marker;

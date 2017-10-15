@@ -1,18 +1,17 @@
 'use strict';
 
-var L = require('leaflet');
-require('leaflet.offline');
-require('leaflet-routing-machine');
 var CONFIG = require('./config');
-var StationList = require('./models/StationList');
 var User = require('./util/User');
+var L = require('leaflet');
+var LeafletMap = require('./models/LeafletMap');
+var StationList = require('./models/StationList');
+require('classlist-polyfill');
 
 var App = function() {
   var _ = {
     User: null,
     map: null,
     routeController: null, // used for route finding
-    routeItinerary: null,  // used to display itineraries as text in a control
     StationList: [],       // list of stations
     apiEndpoint: CONFIG.apiEndpoint,
     mapboxKey: CONFIG.mapboxKey,
@@ -35,17 +34,7 @@ var App = function() {
       }
     },
     createMap: function() {
-      _.map = L.map('map', CONFIG.mapConfig);
-      L.tileLayer(
-        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
-      ).addTo(_.map);
-      L.tileLayer.offline(
-        'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-        {
-          subdomains: '1234',
-          minZoom: 13
-        }
-      ).addTo(_.map);
+      _.map = new LeafletMap();
     },
     createRouteController: function() {
 			var mapboxRouter = L.Routing.mapbox(_.mapboxKey);
@@ -60,7 +49,7 @@ var App = function() {
         },
         createMarker: function() { return null; },
         pointMarkerStyle: CONFIG.map.routeItinerary.pointMarkerStyle,
-        show: true,
+        show: false,
       }).addTo(_.map);
     },
     getStationList: function() {

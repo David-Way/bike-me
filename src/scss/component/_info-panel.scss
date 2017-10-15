@@ -10,6 +10,14 @@
   }
 }
 
+@media screen and (min-width: $medium-screen) {
+  #infoPanel {
+    margin-top: 12vh;
+    margin-right: 10px;
+    max-width: 84vw;
+  }
+}
+
 .info-card {
   position: relative;
   display: flex;
@@ -82,13 +90,7 @@
 .leaflet-control {
   &.leaflet-routing-container {
     margin-top: 0;
-  }
-}
-
-@media screen and (min-width: $medium-screen) {
-  #infoPanel {
-    margin-top: 12vh;
-    margin-right: 10px;
-    max-width: 84vw;
+    border: none;
+    box-shadow: $box-shadow;
   }
 }
