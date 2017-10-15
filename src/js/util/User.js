@@ -10,9 +10,9 @@ var User = function(_mapConfig) {
   return this.init();
 };
 
-User.prototype.init = function() {
+User.prototype.init = function() { // TODO handle user permission request friendlier
   if ('geolocation' in navigator) {
-    this.UserMarker = new Marker('user', {lat: 53.3470, lng: -6.2589});
+    this.UserMarker = new Marker('user', null, {lat: 53.3470, lng: -6.2589});
     this.watchID = navigator.geolocation.watchPosition(
       this.geolocationSuccess.bind(this),
       this.geolocationError.bind(this)
