@@ -41,14 +41,11 @@ var App = function() {
 			mapboxRouter.options.profile = 'mapbox/walking';
       _.routeController = L.Routing.control({
         router: mapboxRouter,
-        lineOptions: {
-          styles: CONFIG.map.lineOptionsStyles,
-        },
-        altLineOptions: {
-          styles: CONFIG.map.altLineOptionsStyles
-        },
+        lineOptions: CONFIG.map.lineOptions,
+        altLineOptions: CONFIG.map.altLineOptions,
         createMarker: function() { return null; },
         pointMarkerStyle: CONFIG.map.routeItinerary.pointMarkerStyle,
+        summaryTemplate: CONFIG.map.summaryTemplate,
         show: false,
       }).addTo(_.map);
     },
@@ -56,6 +53,8 @@ var App = function() {
       _.StationList = new StationList(_.User, _.apiEndpoint, _.map, _.routeController);
     },
     getUserLocation: function() {
+      // TODO ask user for permission first
+      // developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
       _.User = new User();
       _.User.addToMap(_.map);
     }

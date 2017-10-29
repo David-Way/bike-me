@@ -1,6 +1,7 @@
 #infoPanel {
+  pointer-events: auto;
   z-index: 1000;
-  min-width: 240px;
+  min-width: 300px;
   max-width: 100vw;
 
   &__list {
@@ -21,26 +22,27 @@
 .info-card {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   background: white;
-  padding: 3px 6px 3px 12px;
+  padding: 20px 10px 25px 10px;
   box-shadow: $box-shadow;
 	border-radius: 2px;
 
-  &__highlight{
-    position: absolute;
-    background-color: $color-background;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 6px;
-    border-top: 24px solid $color-primary;
-    margin-top: 3px;
-    margin-left: 2px;
+  &__pin {
+    margin-right: 10px;
+    width: 20px;
   }
 
   &__details {
     flex: 1;
+
+    table {
+      width: 100%;
+    }
+  }
+
+  &__sub-title {
+    color: $color-text-muted;
   }
 
   &__meta {
@@ -55,6 +57,61 @@
       margin-top: 6px;
       margin-bottom: 3px;
     }
+
+		&:after {
+			content: '...';
+		}
+  }
+
+  &__toggle-route {
+    position: absolute;
+    z-index: 1000;
+    bottom: -15px;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    background: $color-background-dark;
+    box-shadow: $box-shadow;
+    border-radius: $border-radius;
+    border: none;
+    width: calc(100% - 20px);
+
+    &::-moz-focus-inner {
+      border: none; // removes padding in Firefox
+      padding: 0;
+    }
+
+    &:after {
+      content: '';
+      box-shadow: $box-shadow-1;
+      border-radius: $border-radius;
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 180ms ease-in;
+    }
+
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      &:after {
+        transition-duration: 60ms; // speed up click action
+        opacity: 0;
+      }
+    }
+
+    &.active {
+      background: $color-background-alt;
+    }
   }
 
   &__locate-btn {
@@ -68,29 +125,44 @@
       background: $color-background-alt;
     }
   }
-
-  img {
-    width: 40px;
-    height: 40px;
-  }
-
-  h3 {
-    line-height: 24px;
-    font-size: 16px;
-    font-weight: 400;
-  }
 }
 
 .leaflet-control {
   box-shadow: $box-shadow;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-}
 
-.leaflet-control {
   &.leaflet-routing-container {
     margin-top: 0;
     border: none;
     box-shadow: $box-shadow;
+  }
+
+  .leaflet-routing-alt {
+    padding: 10px 10px 10px 10px;
+
+    &__heading {
+      display: flex;
+    }
+
+    &__label {
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      margin-top: 8px;
+      margin-right: 10px;
+      text-align: center;
+      font-weight: bold;
+      background-color: $color-background-dark;
+      border-radius: $border-radius-round;
+    }
+
+    &__sub-title {
+      color: $color-text-muted;
+    }
+
+    .leaflet-routing-icon {
+      margin-right: 8px;
+    }
   }
 }

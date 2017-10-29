@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="37px" height="37px" viewBox="0 0 37 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47 (45396) - http://www.bohemiancoding.com/sketch -->
+    <title>directions</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="directions">
+            <g id="Group-2" transform="translate(2.000000, 2.000000)">
+                <circle id="Oval-3" stroke="#3F4448" stroke-width="4" fill="#DDEDED" cx="16.5" cy="16.5" r="16.5"></circle>
+                <g id="Group" transform="translate(16.331814, 16.498327) rotate(35.000000) translate(-16.331814, -16.498327) translate(12.831814, 4.998327)">
+                    <polygon id="Rectangle" fill="#FE3E56" points="3.5470886 0 7 10 3.5 8.59296241 0 10"></polygon>
+                    <polygon id="Rectangle" fill="#3F4448" transform="translate(3.500000, 17.476675) scale(1, -1) translate(-3.500000, -17.476675) " points="3.5470886 12.4766753 7 22.4766753 3.5 21.0696377 0 22.4766753"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
