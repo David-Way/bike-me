@@ -4,6 +4,17 @@ var L = require('leaflet');
 var Marker = require('../util/Marker');
 var moment = require('moment');
 
+/**
+ * Constructs and initilises station object
+ *
+ * @param  {object} _User -
+ * @param  {array} _data -
+ * @param  {String} _infoCardTemplate -
+ * @param  {object} _routeController -
+ * @param  {function} _selectedCallback - 
+ *
+ * @return {Station}
+ */
 var Station = function(_User, _data, _infoCardTemplate, _routeController, _selectedCallback) {
   this.assign(_data);
   this.User = _User;
@@ -64,13 +75,22 @@ Station.prototype.showInfoPanel = function() {
     infoPanel.removeChild(infoPanel.firstChild);
   }
 
+  var subtitle = 'Station no. ' + this.number;
+  if (this.banking) {
+    subtitle += ' (Credit card machine)';
+  }
+
   infoPanel.innerHTML = this.infoCardTemplate;
+  infoPanel.getElementsByClassName('info-card__pin')[0].src =
+  'images/icons/' + this.marker.markerType + '-' + this.marker.markerCatagory + '.svg';
   infoPanel.getElementsByClassName('info-card__title')[0]
     .appendChild(document.createTextNode(this.address));
+  infoPanel.getElementsByClassName('info-card__sub-title')[0]
+    .appendChild(document.createTextNode(subtitle));
   infoPanel.getElementsByClassName('bikes')[0]
-    .appendChild(document.createTextNode(this.available_bikes));
+    .appendChild(document.createTextNode(this.available_bikes || '--'));
   infoPanel.getElementsByClassName('stands')[0]
-    .appendChild(document.createTextNode(this.available_bike_stands));
+    .appendChild(document.createTextNode(this.available_bike_stands || '--'));
   infoPanel.getElementsByClassName('updated')[0]
     .appendChild(document.createTextNode(moment.unix(this.last_update/1000).fromNow()));
 
@@ -89,10 +109,13 @@ Station.prototype.showDirections = function() {
     L.latLng(this.User.getLatLng()),
     L.latLng(this.marker.getLatLng()),
   ]);
+};
+
+Station.prototype.showItinerary = function() {
   this.routeController.show();
 };
 
-Station.prototype.hideDirections = function() {
+Station.prototype.hideItinerary = function() {
   this.routeController.hide();
 };
 
