@@ -34,16 +34,20 @@ const Config = function () {
     minZoom: 13,
   };
   this.map = { // map styling
-    lineOptionsStyles: [{
-      color: this.color.primary,
-      opacity: 1,
-      weight: 5
-    }],
-    altLineOptionsStyles: [{
-      color: this.color.black,
-      opacity: 0.15,
-      weight: 8
-    }],
+    lineOptions: {
+      styles: [{
+        color: this.color.primary,
+        opacity: 1,
+        weight: 5,
+      }]
+    },
+    altLineOptions: {
+      styles: [{
+        color: this.color.black,
+        opacity: 0.15,
+        weight: 8,
+      }]
+    },
     routeItinerary: { // used to display itineraries as text in a control
       pointMarkerStyle: {
         radius: 5,
@@ -53,6 +57,11 @@ const Config = function () {
         fillOpacity: 0.15,
       }
     },
+    summaryTemplate: '<div class="leaflet-routing-alt__heading">' +
+    '<div class="leaflet-routing-alt__label"></div><div>' +
+    '<h2 class="leaflet-routing-alt__title">{name}</h2>' +
+    '<h3 class="leaflet-routing-alt__sub-title">{distance}, {time}</h3>' +
+    '</div></div>',
   };
   this.zoomControl = {
     position: 'bottomright',
@@ -61,7 +70,7 @@ const Config = function () {
     maxBounds: [
       [ 53.3233, -6.3178 ],
       [ 53.3764, -6.1832 ],
-    ]
+    ],
   };
   this.paths = {
     iconBaseUrl: '../images/icons/',
