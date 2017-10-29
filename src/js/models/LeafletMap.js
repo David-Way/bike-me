@@ -14,10 +14,10 @@ LeafletMap.prototype.init = function() {
   var zoomControl = new L.Control.Zoom(CONFIG.zoomControl);
   zoomControl.addTo(map);
   L.tileLayer(
-    'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
+    'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.svg'
   ).addTo(map);
   L.tileLayer.offline(
-    'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+    'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.svg',
     CONFIG.offline
   ).addTo(map);
   this.addControlPlaceholders(map);

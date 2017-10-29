@@ -1,15 +1,21 @@
 $color-primary: #FF1744;
 
 $color-text: #1B1718;
+$color-text-muted: #9E9E9E;
 
 $color-background: white;
 $color-background-alt: #F2F2F2;
+$color-background-dark: #F5F5F5;
 
 $color-success: #3CE7A2;
 $color-warning: #E7A23C;
 $color-danger: #C0392b;
 
 $box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .4);
+$box-shadow-1: 0 2px 4px 0 rgba(0, 0, 0, .4);
+
+$border-radius: 4px;
+$border-radius-round: 100vw;
 
 $small-screen:  481px !default;
 $medium-screen: 640px !default;

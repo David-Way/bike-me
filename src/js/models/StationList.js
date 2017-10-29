@@ -21,6 +21,7 @@ var StationList = function(_User, _apiEndpoint, _map, _routeController) {
 StationList.prototype.init = function() {
   this.loadStaticStationData();
   this.loadLatestDynamicStationData();
+  this.addEventListeners();
 
   this.loadLatestDynamicStationDataWatchId = setInterval(function () {
     this.loadLatestDynamicStationData();
@@ -70,18 +71,22 @@ StationList.prototype.updateStations = function (stationsData) {
 };
 
 StationList.prototype.stationSelectedCallback = function (_selectedStation) {
-  this.selectedStation = _selectedStation;
+  if (this.selectedStation && this.selectedStation !== _selectedStation) {
+    this.selectedStation.hideItinerary();
+  }
   for (var i = 0; i < this.stations.length; i++) {
     if (this.stations[i].number !== _selectedStation.number) {
       this.stations[i].setSelectedState(false);
     } else { // found selected station
       this.stations[i].toggleSelectedState();
       if (this.stations[i].getSelectedState()) {
+        this.selectedStation = this.stations[i];
         this.stations[i].showInfoPanel();
         this.stations[i].showDirections();
       } else { //hide info panel
+        this.selectedStation = null;
         this.stations[i].hideInfoPanel();
-        this.stations[i].hideDirections();
+        this.stations[i].hideItinerary();
       }
     }
   }
@@ -131,6 +136,43 @@ StationList.prototype.loadLatestDynamicStationData = function() {
     loadingBar.remove();
   };
   return request.send();
+};
+
+StationList.prototype.addEventListeners = function() {
+  var body = document.querySelector('body');
+  var buttonsFilter = function(elem) {
+    return elem.classList && elem.classList.contains('info-card__toggle-route');
+  };
+  var buttonHandler = function(e) {
+    e.stopPropagation();
+    var button = e.delegateTarget;
+    if(!button.classList.contains('active')) {
+      button.classList.add('active');
+      button.innerHTML = 'Close routes';
+      this.selectedStation.showItinerary();
+    } else {
+      button.classList.remove('active');
+      button.innerHTML = 'Open routes';
+      this.selectedStation.hideItinerary();
+    }
+  }.bind(this);
+  body.addEventListener('click', this.delegate(buttonsFilter, buttonHandler));
+};
+
+StationList.prototype.removeEventListeners = function() {
+  // TODO
+};
+
+StationList.prototype.delegate = function(criteria, listener) {
+  return function(e) {
+    var el = e.target;
+    do {
+      if (!criteria(el)) continue;
+      e.delegateTarget = el;
+      listener.apply(this, arguments);
+      return;
+    } while( (el = el.parentNode) );
+  };
 };
 
 module.exports = StationList;

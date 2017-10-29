@@ -23,30 +23,38 @@
 <body>
   <noscript>
     <p>
-      This site requires JavaScript. 🚲 I will only be visible if you have it disabled.
+      This site requires JavaScript.
+      🚲 I will only be visible if you have it disabled.
     </p>
   </noscript>
 	<header>
 	  <nav role="navigation">
-	  </nav>
-	</header>
+    </nav>
+  </header>
 	<main>
     <div id="map"></div>
 	</main>
-  <footer>
-  </footer>
   <script id="infoCardTemplate" type="x-template">
     <div class="info-card">
-      <span class="info-card__highlight"></span>
+      <img class="info-card__pin" src="images/icons/bike-station-green.svg"/>
       <div class="info-card__details">
         <h3 class="info-card__title"></h3>
-        <p class="info-card__meta">Bikes <span class="bikes"></span></p>
-        <p class="info-card__meta">Stands <span class="stands"></span></p>
-        <p class="info-card__meta info-card__meta--light">Updated <span class="updated"></span></p>
+        <p class="info-card__sub-title"></p>
+        <table>
+          <tr>
+            <td class="info-card__meta">Available bikes</td>
+            <td class="bikes"></td>
+          </tr>
+          <tr>
+            <td class="info-card__meta">Empty stands</td>
+            <td class="stands"></td>
+          </tr>
+        </table>
+        <p class="info-card__meta info-card__meta--light">
+          Last updated <span class="updated"></span>
+        </p>
       </div>
-      <button class="info-card__locate-btn">
-        <img src="images/icons/bike-station-green.svg" alt="">
-      </button>
+      <button class="info-card__toggle-route">Open routes</button>
       <div class="info-card__directions"></div>
     </div>
   </script>
