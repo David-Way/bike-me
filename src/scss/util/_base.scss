@@ -6,6 +6,10 @@ main,
   margin: 0;
 }
 
+table {
+  border-collapse: collapse;
+}
+
 .leaflet-bar {
   box-shadow: $box-shadow;
 }
