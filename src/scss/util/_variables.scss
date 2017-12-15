@@ -1,4 +1,5 @@
 $color-primary: #FF1744;
+$color-primary-dark: #CA0027;
 
 $color-text: #1B1718;
 $color-text-muted: #9E9E9E;
@@ -11,6 +12,8 @@ $color-success: #3CE7A2;
 $color-warning: #E7A23C;
 $color-danger: #C0392b;
 
+$color-focus: #EFEFEF;
+
 $box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .4);
 $box-shadow-1: 0 2px 4px 0 rgba(0, 0, 0, .4);
 
@@ -20,3 +23,14 @@ $border-radius-round: 100vw;
 $small-screen:  481px !default;
 $medium-screen: 640px !default;
 $large-screen:  1201px !default;
+
+$spacing: (
+  none:      0,
+  x-small:   6px,
+  small:     12px,
+  base:      24px,
+  medium:    36px,
+  large:     48px,
+  x-large:   60px,
+  xx-large:  72px
+) !default;
