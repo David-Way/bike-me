@@ -1,0 +1,36 @@
+.fab {
+	appearance: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: $color-primary;
+	border-radius: 100vw;
+	height: 48px;
+	width: 48px;
+	pointer-events: auto;
+	text-align: center;
+	border: none;
+	cursor: pointer;
+	user-select: none;
+
+	&::-moz-focus-inner {
+    border: none; // removes padding in Firefox
+    padding: 0;
+  }
+
+	&:active,
+	&:hover,
+	&:focus {
+		outline: 2px dotted $color-focus;
+		outline-offset: 3px;
+	}
+
+	&:active{
+		background: $color-primary-dark;
+	}
+
+	&__icon {
+		height: 24px;
+		width: 24px;
+	}
+}
