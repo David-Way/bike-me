@@ -55,7 +55,7 @@ var App = function() {
     getUserLocation: function() {
       // TODO ask user for permission first
       // developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-      _.User = new User();
+      _.User = new User(_.map);
       _.User.addToMap(_.map);
     }
   };
