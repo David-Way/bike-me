@@ -88,6 +88,7 @@ StationList.prototype.stationSelectedCallback = function (_selectedStation) {
         this.selectedStation = null;
         this.stations[i].hideInfoPanel();
         this.stations[i].hideItinerary();
+        this.stations[i].hideDirections();
       }
     }
   }

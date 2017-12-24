@@ -11,7 +11,7 @@ var moment = require('moment');
  * @param  {array} _data -
  * @param  {String} _infoCardTemplate -
  * @param  {object} _routeController -
- * @param  {function} _selectedCallback - 
+ * @param  {function} _selectedCallback -
  *
  * @return {Station}
  */
@@ -109,6 +109,13 @@ Station.prototype.showDirections = function() {
     L.latLng(this.User.getLatLng()),
     L.latLng(this.marker.getLatLng()),
   ]);
+};
+
+Station.prototype.hideDirections = function() {
+  this.routeController.spliceWaypoints(
+    0,
+    this.routeController.getWaypoints().length
+  );
 };
 
 Station.prototype.showItinerary = function() {
