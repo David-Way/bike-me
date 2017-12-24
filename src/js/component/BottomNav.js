@@ -14,7 +14,7 @@ var BottomNav = function() {
   );
   this.context.addEventListener(
     'click',
-    Delegate(this.actionFilter, this.handleActionClick.bind(this))
+    new Delegate(this.actionFilter, this.handleActionClick.bind(this))
   );
   return this;
 };
