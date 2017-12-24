@@ -5,6 +5,7 @@ var User = require('./util/User');
 var L = require('leaflet');
 var LeafletMap = require('./models/LeafletMap');
 var StationList = require('./models/StationList');
+var BottomNav = require('./component/BottomNav');
 require('classlist-polyfill');
 
 var App = function() {
@@ -58,6 +59,10 @@ var App = function() {
       _.User = new User(_.map);
       _.User.addToMap(_.map);
     }
+    },
+    createUI: function() {
+      new BottomNav();
+    },
   };
 
   return {
