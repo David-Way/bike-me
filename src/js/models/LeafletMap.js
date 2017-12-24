@@ -10,15 +10,15 @@ var LeafletMap = function() {
 };
 
 LeafletMap.prototype.init = function() {
-  var map = L.map('map', CONFIG.mapConfig);
-  var zoomControl = new L.Control.Zoom(CONFIG.zoomControl);
+  var map = L.map('map', CONFIG.MAP_CONFIG);
+  var zoomControl = new L.Control.Zoom(CONFIG.ZOOM_CONTROL);
   zoomControl.addTo(map);
   L.tileLayer(
     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.svg'
   ).addTo(map);
   L.tileLayer.offline(
     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.svg',
-    CONFIG.offline
+    CONFIG.OFFLINE
   ).addTo(map);
   this.addControlPlaceholders(map);
   return map;

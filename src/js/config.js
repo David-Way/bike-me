@@ -1,23 +1,28 @@
 'use strict';
 
 const Config = function () {
-  this.apiEndpoint = 'https://mysterious-temple-97993.herokuapp.com';
-  this.mapboxKey = 'pk.eyJ1IjoiZGF2aWR3YXkiLCJhIjoiY2' +
+  this.APP_STATE = {
+    BIKES: 0,
+    STANDS: 1,
+    BUS_STOPS: 2,
+  };
+  this.API_END_POINT = 'https://mysterious-temple-97993.herokuapp.com';
+  this.MAPBOX_KEY = 'pk.eyJ1IjoiZGF2aWR3YXkiLCJhIjoiY2' +
   'ozajJ4MTZkMDBxbDMzbWtncWd3bnQzNS' +
   'J9.p2VfQYvfnB0K29kkixl08A';
-  this.color = {
-    primary: '#FF1744',
-    secondary: '#17FFD2',
-    black: '#000000',
-    white: '#ffffff',
-    success: '#3CE7A2',
-    warning: '#E7A23C',
-    danger: '#C0392b',
+  this.COLOR = {
+    PRIMARY: '#FF1744',
+    SECONDARY: '#17FFD2',
+    BLACK: '#000000',
+    WHITE: '#ffffff',
+    SUCCESS: '#3CE7A2',
+    WARNING: '#E7A23C',
+    DANGER: '#C0392b',
   };
-  this.timer = {
-    dynamicStationData: 30000,
+  this.TIMER = {
+    DYNAMIC_BIKE_STATION_DATA: 30000,
   };
-  this.mapConfig = { // map init config
+  this.MAP_CONFIG = { // map init config
     center: [ 54.3470, -6.2589 ],
     zoomControl: false,
     zoom: 14,
@@ -29,21 +34,21 @@ const Config = function () {
     tap: true,
     attributionControl: false,
   };
-  this.offline = {
+  this.OFFLINE = {
     subdomains: '1234',
     minZoom: 13,
   };
   this.map = { // map styling
     lineOptions: {
       styles: [{
-        color: this.color.primary,
+        color: this.COLOR.PRIMARY,
         opacity: 1,
         weight: 5,
       }]
     },
     altLineOptions: {
       styles: [{
-        color: this.color.black,
+        color: this.COLOR.BLACK,
         opacity: 0.15,
         weight: 8,
       }]
@@ -51,19 +56,19 @@ const Config = function () {
     routeItinerary: { // used to display itineraries as text in a control
       pointMarkerStyle: {
         radius: 5,
-        color: this.color.success,
-        fillColor: this.color.white,
+        color: this.COLOR.SUCCESS,
+        fillColor: this.COLOR.WHITE,
         opacity: 1,
         fillOpacity: 0.15,
       }
     },
     summaryTemplate: '<div class="leaflet-routing-alt__heading">' +
-    '<div class="leaflet-routing-alt__label"></div><div>' +
-    '<h2 class="leaflet-routing-alt__title">{name}</h2>' +
-    '<h3 class="leaflet-routing-alt__sub-title">{distance}, {time}</h3>' +
-    '</div></div>',
+      '<div class="leaflet-routing-alt__label"></div><div>' +
+      '<h2 class="leaflet-routing-alt__title">{name}</h2>' +
+      '<h3 class="leaflet-routing-alt__sub-title">{distance}, {time}</h3>' +
+      '</div></div>',
   };
-  this.zoomControl = {
+  this.ZOOM_CONTROL = {
     position: 'bottomright',
     zoom: 14,
     minZoom: 13,
@@ -72,8 +77,8 @@ const Config = function () {
       [ 53.3764, -6.1832 ],
     ],
   };
-  this.paths = {
-    iconBaseUrl: '../images/icons/',
+  this.PATHS = {
+    ICON_BASE_URL: '../images/icons/',
   };
 };
 

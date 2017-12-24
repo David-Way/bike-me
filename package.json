@@ -31,6 +31,7 @@
     "sw-precache": "^4.2.1"
   },
   "dependencies": {
+    "array-filter": "^1.0.0",
     "bluebird": "^3.5.0",
     "classlist-polyfill": "^1.2.0",
     "leaflet": "^1.0.3",

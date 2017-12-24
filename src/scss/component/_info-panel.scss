@@ -57,10 +57,6 @@
       margin-top: 6px;
       margin-bottom: 3px;
     }
-
-		&:after {
-			content: '...';
-		}
   }
 
   &__toggle-route {
@@ -109,6 +105,14 @@
       }
     }
 
+    &:disabled {
+     &:hover {
+       &:after {
+        opacity: 0;
+       }
+     }
+    }
+
     &.active {
       background: $color-background-alt;
     }
@@ -136,6 +140,10 @@
     margin-top: 0;
     border: none;
     box-shadow: $box-shadow;
+
+    .leaflet-routing-collapse-btn {
+      display: none;
+    }
   }
 
   .leaflet-routing-alt {
