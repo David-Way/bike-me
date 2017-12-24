@@ -4,16 +4,20 @@ var CONFIG = require('../config');
 var Station = require('./Station');
 var LoadingBar = require('../component/LoadingBar');
 
-var StationList = function(_User, _apiEndpoint, _map, _routeController) {
+var StationList = function(_type, _User, _apiEndpoint, _map, _routeController) {
   this.User = _User;
   this.map = _map;
   this.routeController = _routeController;
-  this.staticStationsDataURL = '/data/Dublin.json';
-  this.stationsAPIEndpoint = _apiEndpoint + '/stations';
+  if (_type === 'bus') {
+
+  } else {
+    this.staticStationsDataURL = '/data/Dublin.json';
+    this.stationsAPIEndpoint = _apiEndpoint + '/stations';
+    this.infoCardTemplate = document.getElementById('bikeInfoCardTemplate').innerHTML;
+  }
   this.stations = [];
   this.selectedStation = null;
   this.loadLatestDynamicStationDataWatchId = null;
-  this.infoCardTemplate = document.getElementById('infoCardTemplate').innerHTML;
 
   return this.init();
 };
@@ -25,7 +29,6 @@ StationList.prototype.init = function() {
 
   this.loadLatestDynamicStationDataWatchId = setInterval(function () {
     this.loadLatestDynamicStationData();
-  }.bind(this), CONFIG.timer.dynamicStationData);
   }.bind(this), CONFIG.TIMER.DYNAMIC_BIKE_STATION_DATA);
 
   return this;
