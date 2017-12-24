@@ -1,9 +1,12 @@
 html,
 body,
-main,
 #map {
   height: 100%;
   margin: 0;
+}
+
+main {
+  height: calc(100% - 48px);
 }
 
 table {
@@ -21,4 +24,8 @@ table {
 
 .leaflet-center {
   width: 100%;
+}
+
+.leaflet-routing-container-hide {
+  display: none;
 }

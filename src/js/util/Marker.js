@@ -56,7 +56,7 @@ Marker.prototype.setSelected = function (_selected) {
 
 Marker.prototype.getIcon = function () {
 	var iconOptions = {};
-  var iconUrl = CONFIG.paths.iconBaseUrl;
+  var iconUrl = CONFIG.PATHS.ICON_BASE_URL;
   iconUrl += this.markerType;
 	switch (this.markerType) {
     case 'bike-station':
