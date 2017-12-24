@@ -26,6 +26,7 @@ StationList.prototype.init = function() {
   this.loadLatestDynamicStationDataWatchId = setInterval(function () {
     this.loadLatestDynamicStationData();
   }.bind(this), CONFIG.timer.dynamicStationData);
+  }.bind(this), CONFIG.TIMER.DYNAMIC_BIKE_STATION_DATA);
 
   return this;
 };
