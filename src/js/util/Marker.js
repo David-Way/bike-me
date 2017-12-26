@@ -3,9 +3,9 @@
 var CONFIG = require('../config');
 var L = require('leaflet');
 
-var Marker = function (_markerType, _markerCatagory, _coOrdinates, _onClick, _selected) {
+var Marker = function (_markerType, _markerCategory, _coOrdinates, _onClick, _selected) {
   this.markerType = _markerType;
-  this.markerCatagory = _markerCatagory;
+  this.markerCategory = _markerCategory;
   this.onClick = _onClick;
   this.selected = _selected;
   this.mapMarker = null;
@@ -27,11 +27,12 @@ Marker.prototype.init = function (_coOrdinates) {
     {
       icon: this.mapMarkerIcon
     }
-  ).on('click', this.onClick);
+  );
   return this;
 };
 
 Marker.prototype.addToMap = function(_map) {
+  this.mapMarker.on('click', this.onClick);
   return this.mapMarker.addTo(_map);
 };
 
@@ -60,7 +61,7 @@ Marker.prototype.getIcon = function () {
   iconUrl += this.markerType;
 	switch (this.markerType) {
     case 'bike-station':
-      iconUrl += '-' + this.markerCatagory;
+      iconUrl += '-' + this.markerCategory;
       if (this.selected) {
         iconUrl += '-selected';
       }
