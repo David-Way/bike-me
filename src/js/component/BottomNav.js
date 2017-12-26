@@ -1,4 +1,5 @@
 'use strict';
+var CONFIG = require('../config');
 var Delegate = require('../util/Delegate');
 var filter = require('array-filter');
 var ACTION = 'bottom-nav__action';
@@ -6,7 +7,8 @@ var ACTION_ACTIVE = 'bottom-nav__action--active';
 var BOTTOM_NAV = '.bottom-nav';
 var ACTION_STATE = 'data-app-state';
 
-var BottomNav = function() {
+var BottomNav = function(_callback) {
+  this.callback = _callback;
   this.context = document.body;
   this.context.insertAdjacentHTML(
     'beforeend',
@@ -35,15 +37,19 @@ BottomNav.prototype.handleActionClick = function(_event) {
   if (!bottomNav) {
     console.log('Error', ACTION + ' is missing outer ' + BOTTOM_NAV);
   }
-  var state = action.getAttribute(ACTION_STATE);
+  var actionState = action.getAttribute(ACTION_STATE);
   var bottomNavActions = this.getBottomNavActions(bottomNav);
 
   for (var i = 0; i < bottomNavActions.length; i++) {
-    if (bottomNavActions[i].getAttribute(ACTION_STATE) === state) {
+    if (bottomNavActions[i].getAttribute(ACTION_STATE) === actionState) {
       bottomNavActions[i].classList.add(ACTION_ACTIVE);
     } else {
       bottomNavActions[i].classList.remove(ACTION_ACTIVE);
     }
+  }
+
+  if (CONFIG.APP_STATE[actionState]) {
+    this.callback(CONFIG.APP_STATE[actionState]);
   }
 };
 
