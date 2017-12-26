@@ -4,31 +4,30 @@ var CONFIG = require('../config');
 var Station = require('./Station');
 var LoadingBar = require('../component/LoadingBar');
 
-var StationList = function(_type, _User, _apiEndpoint, _map, _routeController) {
+var StationList = function(_category, _User, _apiEndpoint, _map, _routeController) {
+  this.visisble = true;
+  this.category = _category;
   this.User = _User;
   this.map = _map;
   this.routeController = _routeController;
-  if (_type === 'bus') {
+  if (this.category === 'bus') {
 
   } else {
     this.staticStationsDataURL = '/data/Dublin.json';
     this.stationsAPIEndpoint = _apiEndpoint + '/stations';
-    this.infoCardTemplate = document.getElementById('bikeInfoCardTemplate').innerHTML;
+    this.infoCardTemplate =
+      document.getElementById('bikeInfoCardTemplate').innerHTML;
   }
   this.stations = [];
   this.selectedStation = null;
   this.loadLatestDynamicStationDataWatchId = null;
 
-  return this.init();
-};
-
-StationList.prototype.init = function() {
-  this.loadStaticStationData();
-  this.loadLatestDynamicStationData();
+  this.loadStationData(this.staticStationsDataURL);
+  this.loadStationData(this.stationsAPIEndpoint);
   this.addEventListeners();
 
   this.loadLatestDynamicStationDataWatchId = setInterval(function () {
-    this.loadLatestDynamicStationData();
+    this.loadStationData(this.stationsAPIEndpoint);
   }.bind(this), CONFIG.TIMER.DYNAMIC_BIKE_STATION_DATA);
 
   return this;
@@ -38,6 +37,7 @@ StationList.prototype.stationListed = function (stationData) {
   for (var i = 0; i < this.stations.length; i++) {
     if (this.stations[i].number === stationData.number) {
       return new Station(
+        this.category,
         this.User,
         stationData,
         this.infoCardTemplate,
@@ -56,19 +56,24 @@ StationList.prototype.updateStations = function (stationsData) {
     if (listedStation) { // update it if its listed
       this.stations[i].removeFromMap(this.map);
       this.stations[i] = listedStation;
-      this.stations[i].addToMap(this.map);
+      if (this.visisble) {
+        this.stations[i].addToMap(this.map);
+      }
       if (this.stations[i].getSelectedState()) { // if the station is selected
         this.stations[i].showInfoPanel();        // get it to 'update' its info panel
       }
     } else { // create it if it's not listed
       var station = new Station(
+        this.category,
         this.User,
         stationData,
         this.infoCardTemplate,
         this.routeController,
         this.stationSelectedCallback.bind(this)
       );
-      station.addToMap(this.map);
+      if (this.visisble) {
+        station.addToMap(this.map);
+      }
       this.stations.push(station);
     }
   }
@@ -97,35 +102,12 @@ StationList.prototype.stationSelectedCallback = function (_selectedStation) {
   }
 };
 
-// TODO DRY this out - loadStaticStationData ~== loadLatestDynamicStationData
-StationList.prototype.loadStaticStationData = function () {
+StationList.prototype.loadStationData = function (_dataURL) {
   var ctx = document.getElementsByClassName('leaflet-top leaflet-center')[0];
   var loadingBar = new LoadingBar(ctx);
   loadingBar.init();
   var request = new XMLHttpRequest();
-  request.open('GET', this.staticStationsDataURL, true);
-  request.onload = function() {
-    if (request.status >= 200 && request.status < 400) {
-      var data = JSON.parse(request.responseText);
-      this.updateStations(data);
-    } else { // TODO handle Error
-      loadingBar.remove();
-    }
-    loadingBar.finish();
-  }.bind(this);
-  request.onerror = function(error) { // TODO handle Error
-    console.log('Error loading latest static station data:', error);
-    loadingBar.remove();
-  };
-  return request.send();
-};
-
-StationList.prototype.loadLatestDynamicStationData = function() {
-  var ctx = document.getElementsByClassName('leaflet-top leaflet-center')[0];
-  var loadingBar = new LoadingBar(ctx);
-  loadingBar.init();
-  var request = new XMLHttpRequest();
-  request.open('GET', this.stationsAPIEndpoint, true);
+  request.open('GET', _dataURL, true);
   request.onload = function() {
     if (request.status >= 200 && request.status < 400) {
       var data = JSON.parse(request.responseText);
@@ -137,13 +119,38 @@ StationList.prototype.loadLatestDynamicStationData = function() {
     loadingBar.finish();
   }.bind(this);
   request.onerror = function(error) { // TODO handle Error
-    console.log('Error loading latest dynamic station data:', error.target.status);
+    console.log('Error loading latest station data:', _dataURL, error);
     loadingBar.remove();
   };
   return request.send();
 };
 
-StationList.prototype.addEventListeners = function() {
+StationList.prototype.setCategory = function (_category) {
+  this.category = _category;
+  for (var i = 0; i < this.stations.length; i++) {
+    this.stations[i].setCategory(this.map, this.category);
+  }
+};
+
+StationList.prototype.show = function () {
+  if (!this.visisble) {
+    this.visisble = true;
+    for (var i = 0; i < this.stations.length; i++) {
+      this.stations[i].addToMap(this.map);
+    }
+  }
+};
+
+StationList.prototype.hide = function () {
+  if (this.visisble) {
+    this.visisble = false;
+    for (var i = 0; i < this.stations.length; i++) {
+      this.stations[i].removeFromMap(this.map);
+    }
+  }
+};
+
+StationList.prototype.addEventListeners = function () {
   var body = document.querySelector('body');
   var buttonsFilter = function(elem) {
     return elem.classList && elem.classList.contains('info-card__toggle-route');
@@ -164,7 +171,7 @@ StationList.prototype.addEventListeners = function() {
   body.addEventListener('click', this.delegate(buttonsFilter, buttonHandler));
 };
 
-StationList.prototype.removeEventListeners = function() {
+StationList.prototype.removeEventListeners = function () {
   // TODO
 };
 

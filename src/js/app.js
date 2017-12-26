@@ -10,7 +10,6 @@ require('classlist-polyfill');
 
 var App = function() {
   var _ = {
-    state: CONFIG.APP_STATE.BIKES,
     User: null,
     map: null,
     routeController: null, // used for route finding
@@ -18,6 +17,7 @@ var App = function() {
     BusStationList: [],   // list of bus stations/stops
     apiEndpoint: CONFIG.API_END_POINT,
     mapboxKey: CONFIG.MAPBOX_KEY,
+    state: CONFIG.APP_STATE.BIKES,
     init: function() {
       _.registerServiceWorker();
       _.createMap();
@@ -64,8 +64,27 @@ var App = function() {
       _.User.addToMap(_.map);
     },
     createUI: function() {
-      new BottomNav();
+      new BottomNav(this.setState.bind(this));
     },
+    setState: function(_state) {
+      if (this.state !== _state) {
+        this.state = _state;
+        switch (this.state) {
+          case CONFIG.APP_STATE.BIKES:
+            _.BikeStationList.setCategory('bike');
+            _.BikeStationList.show();
+            break;
+          case CONFIG.APP_STATE.STANDS:
+            _.BikeStationList.setCategory('stands');
+            _.BikeStationList.show();
+            break;
+          case CONFIG.APP_STATE.BUS_STOPS:
+            _.BikeStationList.hide();
+            break;
+          default:
+        }
+      }
+    }
   };
 
   return {

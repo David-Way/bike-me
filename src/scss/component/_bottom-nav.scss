@@ -7,6 +7,7 @@
   bottom: 0;
   left: 0;
   right: 0;
+  background-color: $color-background;
   box-shadow: $box-shadow;
   z-index: 900;
 
@@ -16,6 +17,15 @@
     max-width: 144px;
     flex: 1 1 auto;
     text-decoration: none;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    -webkit-font-smoothing: auto;
+
+    &::-moz-focus-inner {
+      border: none; // removes padding in Firefox
+      padding: 0;
+    }
 
     &:not(:last-child) {
       margin-right: 12px;
@@ -24,10 +34,12 @@
     &:hover,
     &:active,
     &:focus {
-      color: $color-primary-dark;
-
       .bottom-nav__icon {
         fill: $color-primary-dark;
+      }
+
+      .bottom-nav__label {
+        color: $color-primary-dark;
       }
     }
 
@@ -35,10 +47,12 @@
     &--active:hover,
     &--active:active,
     &--active:focus, {
-      color: $color-primary;
-
       .bottom-nav__icon {
         fill: $color-primary;
+      }
+
+      .bottom-nav__label {
+        color: $color-primary;
       }
     }
   }
@@ -54,10 +68,31 @@
   }
 
   &__label {
+    color: $color-text;
     line-height: 1;
     text-align: center;
     white-space: nowrap;
     display: block;
     font-size: 12px;
+  }
+
+  @media screen and (min-width: $medium-screen) {
+    flex-direction: column;
+    top: 0;
+    right: auto;
+    height: auto;
+    width: 48px;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    &__action {
+      height: 48px;
+      flex: 0 1 auto;
+      min-width: auto;
+    }
+
+    &__label {
+      @include sr-only();
+    }
   }
 }

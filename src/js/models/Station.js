@@ -15,39 +15,80 @@ var moment = require('moment');
  *
  * @return {Station}
  */
-var Station = function(_User, _data, _infoCardTemplate, _routeController, _selectedCallback) {
+var Station = function(
+  _stationCategory, _User, _data, _infoCardTemplate, _routeController, _selectedCallback
+) {
   this.assign(_data);
+  this.stationCategory = _stationCategory;
   this.User = _User;
   this.infoCardTemplate = _infoCardTemplate;
   this.routeController = _routeController;
   this.selectedCallback = _selectedCallback;
   this.marker = null;
   this.selected = false;
-  return this.init();
-};
-
-Station.prototype.init = function() {
-  var markerCategory = null;
-  if (this.available_bikes !== undefined) {
-    if (this.available_bikes === 0) {
-      markerCategory = 'red';
-    } else if (this.available_bikes > 0 && this.available_bikes < 5) {
-      markerCategory = 'orange';
-    } else {
-      markerCategory = 'green';
-    }
-  } else {
-    markerCategory = 'static';
-  }
+  this.markerCategory = this.getMarkerCategory(this.stationCategory);
   this.marker = new Marker(
     'bike-station',
-    markerCategory,
+    this.markerCategory,
     this.position,
     this.onClick.bind(this),
     this.selected
   );
 
   return this;
+};
+
+Station.prototype.getMarkerCategory = function(_stationCategory) {
+  var markerCategory = null;
+  switch (_stationCategory) {
+    case 'bike':
+      if (this.available_bikes !== undefined) {
+        if (this.available_bikes === 0) {
+          markerCategory = 'red';
+        } else if (this.available_bikes > 0 && this.available_bikes < 5) {
+          markerCategory = 'orange';
+        } else {
+          markerCategory = 'green';
+        }
+      } else {
+        markerCategory = 'static';
+      }
+      break;
+    case 'stands':
+      if (this.available_bike_stands !== undefined) {
+        if (this.available_bike_stands === 0) {
+          markerCategory = 'red';
+        } else if (this.available_bike_stands > 0 && this.available_bike_stands < 5) {
+          markerCategory = 'orange';
+        } else {
+          markerCategory = 'green';
+        }
+      } else {
+        markerCategory = 'static';
+      }
+      break;
+    case 'bus_stop':
+
+      break;
+    default:
+      markerCategory = 'static';
+  }
+
+  return markerCategory;
+};
+
+Station.prototype.setCategory = function(_map, _stationCategory) {
+  this.stationCategory = _stationCategory;
+  this.markerCategory = this.getMarkerCategory(this.stationCategory);
+  this.marker.removeFromMap(_map);
+  this.marker = new Marker(
+    'bike-station',
+    this.markerCategory,
+    this.position,
+    this.onClick.bind(this),
+    this.selected
+  );
+  this.marker.addToMap(_map);
 };
 
 Station.prototype.addToMap = function(_map) {
@@ -82,7 +123,7 @@ Station.prototype.showInfoPanel = function() {
 
   infoPanel.innerHTML = this.infoCardTemplate;
   infoPanel.getElementsByClassName('info-card__pin')[0].src =
-  'images/icons/' + this.marker.markerType + '-' + this.marker.markerCatagory + '.svg';
+  'images/icons/' + this.marker.markerType + '-' + this.marker.markerCategory + '.svg';
   infoPanel.getElementsByClassName('info-card__title')[0]
     .appendChild(document.createTextNode(this.address));
   infoPanel.getElementsByClassName('info-card__sub-title')[0]

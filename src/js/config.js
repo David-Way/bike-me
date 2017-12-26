@@ -2,9 +2,9 @@
 
 const Config = function () {
   this.APP_STATE = {
-    BIKES: 0,
-    STANDS: 1,
-    BUS_STOPS: 2,
+    BIKES: 1,
+    STANDS: 2,
+    BUS_STOPS: 3,
   };
   this.API_END_POINT = 'https://mysterious-temple-97993.herokuapp.com';
   this.MAPBOX_KEY = 'pk.eyJ1IjoiZGF2aWR3YXkiLCJhIjoiY2' +
