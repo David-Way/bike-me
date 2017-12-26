@@ -60,3 +60,8 @@ p {
   line-height: 18px;
   font-weight: normal;
 }
+
+@mixin sr-only() {
+  position: absolute;
+  left: -999em;
+}
