@@ -8,6 +8,7 @@ var User = function(_map) {
   this.map = _map;
   this.UserMarker = null;
   this.watchID = null;
+  this.locationFound = false;
   this.youLocationButton = null;
   return this.init();
 };
@@ -43,6 +44,10 @@ User.prototype.geolocationSuccess = function(userPosition) {
   var lat = userPosition.coords.latitude;
   var lng = userPosition.coords.longitude;
   this.UserMarker.setLatLng({'lat': lat, 'lng': lng});
+  if (!this.locationFound) {
+    this.map.panTo(this.UserMarker.getLatLng());
+    this.locationFound = true;
+  }
 };
 
 User.prototype.geolocationError = function(error) {
