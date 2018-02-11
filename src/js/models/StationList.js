@@ -1,19 +1,21 @@
 'use strict';
 
 var CONFIG = require('../config');
+var Delegate = require('../util/Delegate');
 var Station = require('./Station');
 var LoadingBar = require('../component/LoadingBar');
 
-var StationList = function(_category, _User, _apiEndpoint, _map, _routeController) {
-  this.visisble = true;
+var StationList = function(_category, _User, _apiEndpoint, _map, _routeController, _visible) {
+  this.visible = _visible;
   this.category = _category;
   this.User = _User;
   this.map = _map;
   this.routeController = _routeController;
   if (this.category === 'bus') {
-
+    this.staticStationsDataURL = '/data/dublin-bus-stops.json';
+    this.stationsAPIEndpoint = 'TODO';
   } else {
-    this.staticStationsDataURL = '/data/Dublin.json';
+    this.staticStationsDataURL = '/data/dublin-bikes.json';
     this.stationsAPIEndpoint = _apiEndpoint + '/stations';
     this.infoCardTemplate =
       document.getElementById('bikeInfoCardTemplate').innerHTML;
@@ -56,7 +58,7 @@ StationList.prototype.updateStations = function (stationsData) {
     if (listedStation) { // update it if its listed
       this.stations[i].removeFromMap(this.map);
       this.stations[i] = listedStation;
-      if (this.visisble) {
+      if (this.visible) {
         this.stations[i].addToMap(this.map);
       }
       if (this.stations[i].getSelectedState()) { // if the station is selected
@@ -71,7 +73,7 @@ StationList.prototype.updateStations = function (stationsData) {
         this.routeController,
         this.stationSelectedCallback.bind(this)
       );
-      if (this.visisble) {
+      if (this.visible) {
         station.addToMap(this.map);
       }
       this.stations.push(station);
@@ -133,8 +135,8 @@ StationList.prototype.setCategory = function (_category) {
 };
 
 StationList.prototype.show = function () {
-  if (!this.visisble) {
-    this.visisble = true;
+  if (!this.visible) {
+    this.visible = true;
     for (var i = 0; i < this.stations.length; i++) {
       this.stations[i].addToMap(this.map);
     }
@@ -142,8 +144,8 @@ StationList.prototype.show = function () {
 };
 
 StationList.prototype.hide = function () {
-  if (this.visisble) {
-    this.visisble = false;
+  if (this.visible) {
+    this.visible = false;
     for (var i = 0; i < this.stations.length; i++) {
       this.stations[i].removeFromMap(this.map);
     }
@@ -157,15 +159,19 @@ StationList.prototype.addEventListeners = function () {
   };
   var buttonHandler = function(e) {
     e.stopPropagation();
-    var button = e.delegateTarget;
-    if(!button.classList.contains('active')) {
-      button.classList.add('active');
-      button.innerHTML = 'Close routes';
-      this.selectedStation.showItinerary();
-    } else {
-      button.classList.remove('active');
-      button.innerHTML = 'Open routes';
-      this.selectedStation.hideItinerary();
+    if (this.visible) {
+      var button = e.delegateTarget;
+      if(!button.classList.contains('active')) {
+        button.classList.add('active');
+        button.innerHTML = 'Close routes';
+        this.selectedStation.showItinerary();
+      } else {
+        button.classList.remove('active');
+        button.innerHTML = 'Open routes';
+        if (this.selectedStation) {
+          this.selectedStation.hideItinerary();
+        }
+      }
     }
   }.bind(this);
   body.addEventListener('click', Delegate(buttonsFilter, buttonHandler));
