@@ -168,23 +168,11 @@ StationList.prototype.addEventListeners = function () {
       this.selectedStation.hideItinerary();
     }
   }.bind(this);
-  body.addEventListener('click', this.delegate(buttonsFilter, buttonHandler));
+  body.addEventListener('click', Delegate(buttonsFilter, buttonHandler));
 };
 
 StationList.prototype.removeEventListeners = function () {
   // TODO
-};
-
-StationList.prototype.delegate = function(criteria, listener) {
-  return function(e) {
-    var el = e.target;
-    do {
-      if (!criteria(el)) continue;
-      e.delegateTarget = el;
-      listener.apply(this, arguments);
-      return;
-    } while( (el = el.parentNode) );
-  };
 };
 
 module.exports = StationList;
