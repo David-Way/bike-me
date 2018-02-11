@@ -15,11 +15,34 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     webserver = require('gulp-webserver'),
     path = require('path'),
-    swPrecache = require('sw-precache');
+    swPrecache = require('sw-precache'),
+    csv = require('csvtojson'),
+    jsonfile = require('jsonfile');
 
 var src = './src',
     dest = './public',
-    environment = 'production';
+    environment = 'production1',
+    CONFIG = require('./src/js/config');
+
+gulp.task('csvtojson:bus', function () {
+  var busJSON = [];
+  csv()
+    .fromFile(src + '/data/dublin-bus-stops.csv')
+    .on('json', (busStop) => {
+      if (busStop.position.lat >= CONFIG.MAP_CONFIG.maxBounds[0][0] &&
+        busStop.position.lat <= CONFIG.MAP_CONFIG.maxBounds[1][0] &&
+        busStop.position.lng <= CONFIG.MAP_CONFIG.maxBounds[1][1] &&
+        busStop.position.lng >= CONFIG.MAP_CONFIG.maxBounds[0][1]) {
+        busJSON.push(busStop);
+        console.log(busStop);
+      }
+    })
+    .on('done', (error) => {
+      jsonfile.writeFile(dest + '/data/dublin-bus-stops.json', busJSON, function (err) {
+        console.error(err)
+      })
+    })
+});
 
 gulp.task('generate-service-worker', function(callback) {
   swPrecache.write(path.join(dest, 'service-worker.js'), {
