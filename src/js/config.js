@@ -5,6 +5,7 @@ const Config = function () {
     BIKES: 1,
     STANDS: 2,
     BUS_STOPS: 3,
+    DEFAULT: 1,
   };
   this.API_END_POINT = 'https://mysterious-temple-97993.herokuapp.com';
   this.MAPBOX_KEY = 'pk.eyJ1IjoiZGF2aWR3YXkiLCJhIjoiY2' +
@@ -28,8 +29,8 @@ const Config = function () {
     zoom: 14,
     minZoom: 13,
     maxBounds: [
-      [ 53.3233, -6.3178 ],
-      [ 53.3764, -6.1832 ]
+      [ 53.3233, -6.3178 ], // bottom left
+      [ 53.3764, -6.1832 ] // top right
     ],
     tap: true,
     attributionControl: false,
