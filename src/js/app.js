@@ -17,13 +17,14 @@ var App = function() {
     BusStationList: [],   // list of bus stations/stops
     apiEndpoint: CONFIG.API_END_POINT,
     mapboxKey: CONFIG.MAPBOX_KEY,
-    state: CONFIG.APP_STATE.BIKES,
+    state: CONFIG.APP_STATE.DEFAULT,
     init: function() {
       _.registerServiceWorker();
       _.createMap();
       _.createRouteController();
       _.getUserLocation();
       _.getStationsList();
+      _.setState();
       _.createUI();
     },
     registerServiceWorker: function() {
