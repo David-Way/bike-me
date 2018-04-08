@@ -2,7 +2,7 @@
 
 var Marker = require('./Marker');
 var Fab = require('../component/Fab');
-//var Promise = require('bluebird');
+var Dialog = require('../component/Dialog');
 
 var User = function(_map) {
   this.map = _map;
@@ -10,34 +10,38 @@ var User = function(_map) {
   this.watchID = null;
   this.locationFound = false;
   this.youLocationButton = null;
-  return this.init();
+  return this;
 };
 
-User.prototype.init = function() { // TODO handle user permission request friendlier
-  if ('geolocation' in navigator) {
-    this.UserMarker = new Marker('user', null, {lat: 53.3470, lng: -6.2589});
-    this.watchID = navigator.geolocation.watchPosition(
-      this.geolocationSuccess.bind(this),
-      this.geolocationError.bind(this)
-    );
-    this.addYourLocationButton();
-    // this.UserMarker = new Marker('user', {
-    //   lat: position.coords.latitude,
-    //   lng: position.coords.longitude}
-    // );
-    //do_something(position.coords.latitude, position.coords.longitude);
-    // new Promise(function(resolve) {
-    //   this.geolocationWatchID = navigator.geolocation.watchPosition(resolve);
-    // }.bind(this)).bind(this).then(function(userPosition) {
-    //   this.geolocationSuccess(userPosition);
-    // }).catch(function(error) {
-    //   this.geolocationError(error);
-    // });
-  } else {
-    console.log('Geolocation is not available.');
-  }
+User.prototype.getUserMarker = function () {
+  this.UserMarker = new Marker('user', null, { lat: 53.3470, lng: -6.2589 });
+  this.watchID = navigator.geolocation.watchPosition(
+    this.geolocationSuccess.bind(this),
+    this.geolocationError.bind(this)
+  );
+};
 
-  return this;
+User.prototype.getUserLocation = function() {
+  if ('geolocation' in navigator) {
+    var permissionsQuery = navigator.permissions.query({
+      name: 'geolocation'
+    }).then(function(result) {
+      if (result.state === 'prompt') {
+        new Dialog(
+					'locationPermissionsWarningDialog',
+					this.getUserMarker.bind(this),
+					null
+				);
+      } else if (result.state === 'denied') {
+        console.log('Location permission denied');
+      } else  if (result.state === 'granted') {
+        console.log('Location permission granted');
+        this.getUserMarker();
+      }
+    }.bind(this));
+
+    return permissionsQuery;
+  }
 };
 
 User.prototype.geolocationSuccess = function(userPosition) {
@@ -45,7 +49,9 @@ User.prototype.geolocationSuccess = function(userPosition) {
   var lng = userPosition.coords.longitude;
   this.UserMarker.setLatLng({'lat': lat, 'lng': lng});
   if (!this.locationFound) {
+    this.addToMap(this.map);
     this.map.panTo(this.UserMarker.getLatLng());
+    this.addYourLocationButton();
     this.locationFound = true;
   }
 };
@@ -64,7 +70,9 @@ User.prototype.addYourLocationButton = function() {
   label.className = 'fab__icon';
   this.youLocationButton = new Fab(context, 'u-ml--small u-mb--small', label, function(event) {
     event.preventDefault();
-    this.map.panTo(this.UserMarker.getLatLng());
+    if (this.UserMarker) {
+      this.map.panTo(this.UserMarker.getLatLng());
+    }
   }.bind(this));
 };
 
@@ -75,11 +83,18 @@ User.prototype.removeYourLocationButton = function() {
 };
 
 User.prototype.addToMap = function(_map) {
-  this.UserMarker.addToMap(_map);
+  if (this.UserMarker) {
+    this.UserMarker.addToMap(_map);
+    this.UserMarker.addClass('user-marker');
+  }
 };
 
 User.prototype.getLatLng = function() {
-  return this.UserMarker.getLatLng();
+  if (this.UserMarker) {
+    return this.UserMarker.getLatLng();
+  } else {
+    return null;
+  }
 };
 
 module.exports = User;
