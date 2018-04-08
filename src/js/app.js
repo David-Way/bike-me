@@ -59,10 +59,8 @@ var App = function() {
       _.BusStationList = new StationList('bus', _.User, _.apiEndpoint, _.map, _.routeController, false);
     },
     getUserLocation: function() {
-      // TODO ask user for permission first
-      // developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
       _.User = new User(_.map);
-      _.User.addToMap(_.map);
+      _.User.getUserLocation();
     },
     createUI: function() {
       new BottomNav(this.setState.bind(this));
