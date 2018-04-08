@@ -1,0 +1,23 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  max-width: 630px;
+  min-width: 320px;
+  height: auto;
+  z-index: 2000;
+  backface-visibility: hidden;
+  transform: translateX(-50%) translateY(-50%);
+  background: $color-background;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-24;
+
+  &__body {
+    padding: map-get($spacing, 'base');
+  }
+
+  &__footer {
+    padding: map-get($spacing, 'base');
+  }
+}
