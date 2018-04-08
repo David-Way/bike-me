@@ -31,9 +31,17 @@ Marker.prototype.init = function (_coOrdinates) {
   return this;
 };
 
-Marker.prototype.addToMap = function(_map) {
+Marker.prototype.addToMap = function (_map) {
   this.mapMarker.on('click', this.onClick);
   return this.mapMarker.addTo(_map);
+};
+
+Marker.prototype.addClass = function (_class) {
+  L.DomUtil.addClass(this.mapMarker._icon, _class);
+};
+
+Marker.prototype.removeClass = function (_class) {
+  L.DomUtil.removeClass(this.mapMarker._icon, _class);
 };
 
 Marker.prototype.removeFromMap = function (_map) {
@@ -74,16 +82,16 @@ Marker.prototype.getIcon = function () {
         shadowSize: [0, 0],
         shadowAnchor: [0, 0]
       };
-      break;
+
+      return L.icon(iconOptions);
     case 'user':
       iconOptions = {
-        iconUrl: iconUrl + '.png',
-        iconRetinaUrl: iconUrl + '@2x.png',
         iconSize: [20, 20],
         iconAnchor: [10, 10],
         popupAnchor: [10, 10]
       };
-      break;
+
+      return L.divIcon(iconOptions);
 		default:
 	}
 

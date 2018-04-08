@@ -1,0 +1,37 @@
+.button {
+  -webkit-appearance: none;
+  background-color: transparent;
+  -webkit-font-smoothing: auto;
+  font-size: 18px;
+  height: 48px;
+  min-width: 100px;
+  padding-left: 24px;
+  padding-right: 24px;
+  border: none;
+  border-radius: $border-radius-round;
+
+  &:focus {
+    outline: none;
+    color: $color-primary-dark;
+  }
+
+  &::-moz-focus-inner {
+    border: none; // removes padding in Firefox
+    padding: 0;
+  }
+
+  &:hover {
+    color: $color-primary;
+    background-color: transparent;
+  }
+
+  &--primary {
+    color: $color-text-inverted;
+    background-color: $color-primary;
+    border: 2px solid $color-primary;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}

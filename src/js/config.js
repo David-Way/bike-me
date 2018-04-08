@@ -24,6 +24,7 @@ const Config = function () {
     DYNAMIC_BIKE_STATION_DATA: 30000,
   };
   this.MAP_CONFIG = { // map init config
+    preferCanvas: true,
     center: [ 54.3470, -6.2589 ],
     zoomControl: false,
     zoom: 14,
@@ -54,6 +55,7 @@ const Config = function () {
         weight: 8,
       }]
     },
+    createMarker : function() { return null; },
     routeItinerary: { // used to display itineraries as text in a control
       pointMarkerStyle: {
         radius: 5,
