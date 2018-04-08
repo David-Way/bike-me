@@ -84,7 +84,6 @@ Marker.prototype.getIcon = function () {
       };
 
       return L.icon(iconOptions);
-      break;
     case 'user':
       iconOptions = {
         iconSize: [20, 20],
@@ -93,7 +92,6 @@ Marker.prototype.getIcon = function () {
       };
 
       return L.divIcon(iconOptions);
-      break;
 		default:
 	}
 

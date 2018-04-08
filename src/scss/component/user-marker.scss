@@ -5,7 +5,7 @@
   background: -webkit-linear-gradient(left, #dd5e89, #f7bb97);
   background: -o-linear-gradient(left, #dd5e89, #f7bb97);
   background: linear-gradient(to right, #dd5e89, #f7bb97); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  border: 1px solid $color-text;
+  border: 1px solid #dd5e89;
 
   &:before,
   &:after {
@@ -15,7 +15,7 @@
     left: -13px;
     height: 44px;
     width: 44px;
-    border: 1px solid $color-text;
+    border: 1px solid #dd5e89;
     border-radius: 44px;
     animation: wave 5s infinite linear;
     animation-fill-mode: both;
