@@ -48,15 +48,29 @@ var App = function() {
         router: mapboxRouter,
         lineOptions: CONFIG.map.lineOptions,
         altLineOptions: CONFIG.map.altLineOptions,
-        createMarker: function() { return null; },
+        createMarker: CONFIG.map.createMarker,
         pointMarkerStyle: CONFIG.map.routeItinerary.pointMarkerStyle,
         summaryTemplate: CONFIG.map.summaryTemplate,
         show: false,
       }).addTo(_.map);
     },
     getStationsList: function() {
-      _.BikeStationList = new StationList('bike', _.User, _.apiEndpoint, _.map, _.routeController, true);
-      _.BusStationList = new StationList('bus', _.User, _.apiEndpoint, _.map, _.routeController, false);
+      _.BikeStationList = new StationList(
+        'bike',
+        _.User,
+        _.apiEndpoint,
+        _.map,
+        _.routeController,
+        true
+      );
+      _.BusStationList = new StationList(
+        'bus',
+        _.User,
+        _.apiEndpoint,
+        _.map,
+        _.routeController,
+        false
+      );
     },
     getUserLocation: function() {
       _.User = new User(_.map);
@@ -69,7 +83,7 @@ var App = function() {
       if (this.state !== _state) {
         this.state = _state;
         switch (this.state) {
-          case CONFIG.APP_STATE.BIKES:            
+          case CONFIG.APP_STATE.BIKES:
             _.BikeStationList.loadStationData(_.BikeStationList.stationsAPIEndpoint);
             _.BikeStationList.setCategory('bike');
             _.BusStationList.hide();

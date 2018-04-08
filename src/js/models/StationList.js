@@ -174,7 +174,10 @@ StationList.prototype.addEventListeners = function () {
       }
     }
   }.bind(this);
-  body.addEventListener('click', Delegate(buttonsFilter, buttonHandler));
+  body.addEventListener(
+		'click',
+		new Delegate(buttonsFilter, buttonHandler)
+	);
 };
 
 StationList.prototype.removeEventListeners = function () {
