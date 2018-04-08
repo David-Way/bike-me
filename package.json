@@ -40,6 +40,7 @@
     "leaflet-routing-machine": "^3.2.5",
     "leaflet.offline": "0.1.0-beta.5",
     "localforage": "^1.5.0",
-    "moment": "^2.18.1"
+    "moment": "^2.18.1",
+    "uniqid": "^4.1.1"
   }
 }
