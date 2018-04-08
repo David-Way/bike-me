@@ -1,0 +1,47 @@
+.user-marker {
+  position: relative;
+  border-radius: 100vw;
+  background: #dd5e89; /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(left, #dd5e89, #f7bb97);
+  background: -o-linear-gradient(left, #dd5e89, #f7bb97);
+  background: linear-gradient(to right, #dd5e89, #f7bb97); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border: 1px solid $color-text;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: -13px;
+    left: -13px;
+    height: 44px;
+    width: 44px;
+    border: 1px solid $color-text;
+    border-radius: 44px;
+    animation: wave 5s infinite linear;
+    animation-fill-mode: both;
+	}
+
+  &:after {
+    animation-delay: 1.66s;
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(0);
+    opacity: 0.0;
+  }
+  25% {
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1.0;
+  }
+  75% {
+    opacity: 1.0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.0;
+  }
+}

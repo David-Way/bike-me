@@ -77,12 +77,12 @@ Marker.prototype.getIcon = function () {
       break;
     case 'user':
       iconOptions = {
-        iconUrl: iconUrl + '.png',
-        iconRetinaUrl: iconUrl + '@2x.png',
         iconSize: [20, 20],
         iconAnchor: [10, 10],
         popupAnchor: [10, 10]
       };
+
+      return L.divIcon(iconOptions);
       break;
 		default:
 	}
