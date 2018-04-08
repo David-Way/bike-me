@@ -34,6 +34,19 @@
 	<main>
     <div id="map"></div>
 	</main>
+  <script id="locationPermissionsWarningDialog" type="x-template">
+    <div id="#" class="modal">
+      <div class="modal__body">
+        <svg width="37" height="37" xmlns="http://www.w3.org/2000/svg"><g transform="translate(2 2)" fill="none" fill-rule="evenodd"><circle stroke="#3F4448" stroke-width="4" fill="#DDEDED" cx="16.5" cy="16.5" r="16.5"/><path fill="#FE3E56" d="M22.967 7.105l-2.908 10.172-2.06-3.16-3.674-.855z"/><path fill="#3F4448" d="M10.074 25.517l8.565-6.211-3.674-.855-2.06-3.16z"/></g></svg>
+        <h1>Location access</h1>
+        <p>Location access is required for route guidance and location centering.</p>
+      </div>
+      <div class="modal__footer">
+        <button class="button button--primary" data-action="confirm">Next</button>
+        <button class="button" data-action="deny">Skip</button>
+      </div>
+    </div>
+  </script>
   <script id="bikeInfoCardTemplate" type="x-template">
     <div class="info-card">
       <img class="info-card__pin" src="images/icons/bike-station-green.svg"/>
